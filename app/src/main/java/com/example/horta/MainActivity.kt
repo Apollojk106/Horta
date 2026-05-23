@@ -1,17 +1,22 @@
 package com.example.horta
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import com.example.horta.database.DatabaseHelper
 import com.example.horta.loja.*
 import com.example.horta.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val dbHelper = DatabaseHelper(this)
+        val db = dbHelper.readableDatabase
+
         setContent {
             HortaTheme {
                 AppNavigation()

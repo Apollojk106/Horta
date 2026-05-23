@@ -1,0 +1,105 @@
+package com.example.horta
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import com.example.horta.loja.*
+import com.example.horta.ui.theme.*
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            HortaTheme {
+                AppNavigation()
+            }
+        }
+    }
+}
+
+@Composable
+fun AppNavigation() {
+    var telaAtual by remember { mutableStateOf("inicio") }
+    val context = LocalContext.current
+
+    when (telaAtual) {
+        // Tela inicial
+        "inicio" -> InicioScreen(
+            onComecarClick = { telaAtual = "login" }
+        )
+
+        // Login e autenticação
+        "login" -> LoginScreen(
+            onLoginSuccess = {
+                Toast.makeText(context, "Login realizado!", Toast.LENGTH_LONG).show()
+                telaAtual = "main"
+            },
+            onCadastroClick = { telaAtual = "cadastro" },
+            onEsqueciSenhaClick = { telaAtual = "recuperarSenha" }
+        )
+
+        "cadastro" -> CadastroScreen(
+            onCadastroSuccess = {
+                Toast.makeText(context, "Cadastro realizado!", Toast.LENGTH_LONG).show()
+                telaAtual = "login"
+            },
+            onVoltarClick = { telaAtual = "login" }
+        )
+
+        "recuperarSenha" -> RecuperarSenhaScreen(
+            onVoltarClick = { telaAtual = "login" }
+        )
+
+        // Telas individuais
+        "horta" -> HortaScreen(
+            onVoltar = { telaAtual = "main" }
+        )
+
+        "loja" -> LojaScreen(
+            onVerCarrinho = { telaAtual = "carrinho" },
+            onVerHorta = { telaAtual = "horta" },
+            onVerDoacao = { telaAtual = "doacao" },
+            onLogout = {
+                Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
+                telaAtual = "inicio"
+            }
+        )
+
+        "doacao" -> DoacaoScreen(
+            onVoltar = { telaAtual = "main" }
+        )
+
+        "perfil" -> PerfilScreen(
+            onLogout = {
+                Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
+                telaAtual = "inicio"
+            }
+        )
+
+        // Fluxo de compras
+        "carrinho" -> CarrinhoScreen(
+            onFinalizar = { telaAtual = "entrega" },
+            onVoltar = { telaAtual = "loja" }
+        )
+
+        "entrega" -> EntregaScreen(
+            onProximo = { telaAtual = "pagamento" },
+            onVoltar = { telaAtual = "carrinho" }
+        )
+
+        "pagamento" -> PagamentoScreen(
+            onConfirmar = { telaAtual = "qrcode" },
+            onVoltar = { telaAtual = "entrega" }
+        )
+
+        "qrcode" -> QRcodeScreen(
+            onConcluir = {
+                Toast.makeText(context, "Compra finalizada!", Toast.LENGTH_LONG).show()
+                telaAtual = "loja"
+            }
+        )
+    }
+}

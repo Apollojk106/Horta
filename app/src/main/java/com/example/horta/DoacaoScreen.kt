@@ -27,6 +27,7 @@ fun DoacaoScreen(
                         "horta" -> onNavigateTo("horta")
                         "loja" -> onNavigateTo("loja")
                         "doacao" -> { /* Já está na tela de doação */ }
+                        "pedidos" -> onNavigateTo("pedidos")
                         "perfil" -> onNavigateTo("perfil")
                     }
                 }

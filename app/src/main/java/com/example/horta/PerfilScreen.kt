@@ -27,6 +27,7 @@ fun PerfilScreen(
                         "horta" -> onNavigateTo("horta")
                         "loja" -> onNavigateTo("loja")
                         "doacao" -> onNavigateTo("doacao")
+                        "pedidos" -> onNavigateTo("pedidos")
                         "perfil" -> { /* Já está no perfil */ }
                     }
                 }

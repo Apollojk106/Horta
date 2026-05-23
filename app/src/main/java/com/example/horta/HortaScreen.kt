@@ -33,6 +33,7 @@ fun HortaScreen(
                         "horta" -> { /* Já está na horta */ }
                         "loja" -> onNavigateTo("loja")
                         "doacao" -> onNavigateTo("doacao")
+                        "pedidos" -> onNavigateTo("pedidos")
                         "perfil" -> onNavigateTo("perfil")
                     }
                 }

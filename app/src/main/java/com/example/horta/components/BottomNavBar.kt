@@ -18,6 +18,7 @@ val menuItems = listOf(
     BottomNavItem("horta", "🌱", "Horta"),
     BottomNavItem("loja", "🛒", "Loja"),
     BottomNavItem("doacao", "🎁", "Doar"),
+    BottomNavItem("pedidos", "📋", "Pedidos"),
     BottomNavItem("perfil", "👤", "Perfil")
 )
 

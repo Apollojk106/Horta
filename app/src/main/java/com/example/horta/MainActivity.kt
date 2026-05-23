@@ -66,6 +66,10 @@ fun AppNavigation() {
             onVoltar = { telaAtual = "horta" },
         )
 
+        "pedidos" -> PedidosScreen(
+            onNavigateTo = { telaAtual = it }
+        )
+
         "perfil" -> PerfilScreen(
             onNavigateTo = { telaAtual = it },
             onLogout = {
@@ -78,31 +82,34 @@ fun AppNavigation() {
         "loja" -> LojaScreen(
             onNavigateTo = { telaAtual = it },
             onVerCarrinho = { telaAtual = "carrinho" },
-            onVerHorta = { telaAtual = "horta" },
-            onVerDoacao = { telaAtual = "doacao" },
             onLogout = {
                 Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
                 telaAtual = "inicio"
-            }
-
+            },
+            onVerHorta = { telaAtual = "horta" },
+            onVerDoacao = { telaAtual = "doacao" }
         )
 
         "carrinho" -> CarrinhoScreen(
+            onNavigateTo = { telaAtual = it },
             onFinalizar = { telaAtual = "entrega" },
             onVoltar = { telaAtual = "loja" }
         )
 
         "entrega" -> EntregaScreen(
+            onNavigateTo = { telaAtual = it },
             onProximo = { telaAtual = "pagamento" },
             onVoltar = { telaAtual = "carrinho" }
         )
 
         "pagamento" -> PagamentoScreen(
+            onNavigateTo = { telaAtual = it },
             onConfirmar = { telaAtual = "qrcode" },
             onVoltar = { telaAtual = "entrega" }
         )
 
         "qrcode" -> QRcodeScreen(
+            onNavigateTo = { telaAtual = it },
             onConcluir = {
                 Toast.makeText(context, "Compra finalizada!", Toast.LENGTH_LONG).show()
                 telaAtual = "loja"

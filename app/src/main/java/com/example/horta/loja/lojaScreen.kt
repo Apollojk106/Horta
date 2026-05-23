@@ -31,6 +31,7 @@ fun LojaScreen(
                         "horta" -> onNavigateTo("horta")
                         "loja" -> { /* Já está na loja */ }
                         "doacao" -> onNavigateTo("doacao")
+                        "pedidos" -> onNavigateTo("pedidos")
                         "perfil" -> onNavigateTo("perfil")
                     }
                 }

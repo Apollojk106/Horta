@@ -35,7 +35,7 @@ fun AppNavigation() {
         "login" -> LoginScreen(
             onLoginSuccess = {
                 Toast.makeText(context, "Login realizado!", Toast.LENGTH_LONG).show()
-                telaAtual = "main"
+                telaAtual = "horta"
             },
             onCadastroClick = { telaAtual = "cadastro" },
             onEsqueciSenhaClick = { telaAtual = "recuperarSenha" }
@@ -53,15 +53,8 @@ fun AppNavigation() {
             onVoltarClick = { telaAtual = "login" }
         )
 
-        // Telas individuais
         "horta" -> HortaScreen(
-            onVoltar = { telaAtual = "main" }
-        )
-
-        "loja" -> LojaScreen(
-            onVerCarrinho = { telaAtual = "carrinho" },
-            onVerHorta = { telaAtual = "horta" },
-            onVerDoacao = { telaAtual = "doacao" },
+            onNavigateTo = { telaAtual = it },
             onLogout = {
                 Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
                 telaAtual = "inicio"
@@ -69,10 +62,12 @@ fun AppNavigation() {
         )
 
         "doacao" -> DoacaoScreen(
-            onVoltar = { telaAtual = "main" }
+            onNavigateTo = { telaAtual = it },
+            onVoltar = { telaAtual = "horta" },
         )
 
         "perfil" -> PerfilScreen(
+            onNavigateTo = { telaAtual = it },
             onLogout = {
                 Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
                 telaAtual = "inicio"
@@ -80,6 +75,18 @@ fun AppNavigation() {
         )
 
         // Fluxo de compras
+        "loja" -> LojaScreen(
+            onNavigateTo = { telaAtual = it },
+            onVerCarrinho = { telaAtual = "carrinho" },
+            onVerHorta = { telaAtual = "horta" },
+            onVerDoacao = { telaAtual = "doacao" },
+            onLogout = {
+                Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
+                telaAtual = "inicio"
+            }
+
+        )
+
         "carrinho" -> CarrinhoScreen(
             onFinalizar = { telaAtual = "entrega" },
             onVoltar = { telaAtual = "loja" }

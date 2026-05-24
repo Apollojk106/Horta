@@ -1,13 +1,12 @@
 package com.example.horta
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import com.example.horta.database.DatabaseHelper
+import com.example.horta.utilities.DatabaseHelper
 import com.example.horta.loja.*
 import com.example.horta.ui.theme.*
 
@@ -33,7 +32,7 @@ fun AppNavigation() {
     when (telaAtual) {
         // Tela inicial
         "inicio" -> InicioScreen(
-            onComecarClick = { telaAtual = "login" }
+            onComecarClick = { telaAtual = "horta" }
         )
 
         // Login e autenticação

@@ -2,6 +2,7 @@ package com.example.horta.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.example.horta.utilities.DatabaseHelper
 
 class ProdutoRepository(context: Context) {
     private val db: SQLiteDatabase = DatabaseHelper(context).readableDatabase

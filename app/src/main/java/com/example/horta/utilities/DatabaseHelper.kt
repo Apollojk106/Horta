@@ -1,20 +1,51 @@
-package com.example.horta.database
+package com.example.horta.utilities
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
 import android.util.Log
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "projeto_horta.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 5
         private const val TAG = "DatabaseHelper"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
+
+        //Sessao de login
+        db.execSQL("""
+        CREATE TABLE IF NOT EXISTS sessao (
+            id_sessao INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER NOT NULL,
+            token_sessao TEXT NOT NULL,
+            data_login TEXT DEFAULT CURRENT_TIMESTAMP,
+            data_expiracao TEXT,
+            ativo INTEGER DEFAULT 1,
+            FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+        )
+    """)
+
+        //sessao manual para poder testar o sistema
+        db.execSQL("""
+            INSERT OR IGNORE INTO sessao (id_sessao, id_cliente, token_sessao, data_login, data_expiracao, ativo) 
+            VALUES (1, 1, 'token_sessao_padrao', datetime('now'), datetime('now', '+7 days'), 1);
+        """)
+
+        // Token
+        db.execSQL("""
+        CREATE TABLE IF NOT EXISTS token_recuperacao (
+            id_token INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER NOT NULL,
+            token TEXT NOT NULL UNIQUE,
+            data_criacao TEXT DEFAULT CURRENT_TIMESTAMP,
+            data_expiracao TEXT NOT NULL,
+            usado INTEGER DEFAULT 0,
+            FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+        )
+    """)
 
         // 1. Tabela FORNECEDOR
         db.execSQL("""

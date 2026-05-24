@@ -1,18 +1,26 @@
 package com.example.horta.ui.theme
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.horta.R
 import com.example.horta.database.ClienteRepository
 import kotlinx.coroutines.*
 
@@ -71,170 +79,291 @@ fun CadastroScreen(
         }
     }
 
+    // Conteúdo com SCROLL
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())  // ← ADICIONA SCROLL
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .verticalScroll(rememberScrollState())
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Criar Conta", fontSize = 32.sp, color = Color(0xFF4CAF50))
-        Spacer(modifier = Modifier.height(8.dp))
-        Text("Preencha seus dados para continuar", fontSize = 14.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Campo Nome
-        OutlinedTextField(
-            value = nome,
-            onValueChange = { nome = it },
-            label = { Text("Nome completo") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo E-mail
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("E-mail") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo Telefone (opcional)
-        OutlinedTextField(
-            value = telefone,
-            onValueChange = { telefone = it },
-            label = { Text("Telefone (opcional)") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo Senha
-        OutlinedTextField(
-            value = senha,
-            onValueChange = { senha = it },
-            label = { Text("Senha") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Campo Confirmar Senha
-        OutlinedTextField(
-            value = confirmarSenha,
-            onValueChange = { confirmarSenha = it },
-            label = { Text("Confirmar senha") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Card de requisitos da senha
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
+        // PRIMEIRA PARTE: Bgverde com logo e textos
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = "🔒 Requisitos da senha:",
-                    fontSize = 12.sp,
-                    color = Color(0xFF2E7D32)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.bgverde),
+                    contentDescription = "Background Verde",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop
                 )
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = if (senha.length >= 6) "✅" else "❌",
-                        fontSize = 12.sp,
-                        color = if (senha.length >= 6) Color(0xFF4CAF50) else Color.Gray
-                    )
-                    Text(" Mínimo de 6 caracteres", fontSize = 12.sp, color = Color.Gray)
-                }
+                // Conteúdo sobre a imagem
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(10.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = if (senha.any { it.isLetter() }) "✅" else "❌",
-                        fontSize = 12.sp,
-                        color = if (senha.any { it.isLetter() }) Color(0xFF4CAF50) else Color.Gray
-                    )
-                    Text(" Pelo menos uma letra", fontSize = 12.sp, color = Color.Gray)
-                }
+                    // Logo
+                    Box(
+                        modifier = Modifier
+                            .size(90.dp)
+                            .background(Color.White, shape = RoundedCornerShape(45.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logoybe),
+                            contentDescription = "Logo",
+                            modifier = Modifier.size(60.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = if (senha.any { it.isDigit() }) "✅" else "❌",
-                        fontSize = 12.sp,
-                        color = if (senha.any { it.isDigit() }) Color(0xFF4CAF50) else Color.Gray
-                    )
-                    Text(" Pelo menos um número", fontSize = 12.sp, color = Color.Gray)
-                }
+                    Spacer(modifier = Modifier.height(6.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Texto YBY MARA YE
                     Text(
-                        text = if (senha.isNotBlank() && senha == confirmarSenha) "✅" else "❌",
-                        fontSize = 12.sp,
-                        color = if (senha.isNotBlank() && senha == confirmarSenha) Color(0xFF4CAF50) else Color.Gray
+                        text = "YBY MARA YE",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
-                    Text(" Senhas coincidem", fontSize = 12.sp, color = Color.Gray)
+
+                    Text(
+                        text = "TERRA SEM MAL",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White.copy(alpha = 0.9f)
+                    )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))  // ← Aumentei o espaço
-
-        // Botão Cadastrar
-        Button(
-            onClick = { fazerCadastro() },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+        // SEGUNDA PARTE: Formulário branco
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
-            enabled = !isLoading && isSenhaForte(senha) && senha == confirmarSenha
+                .background(Color.White)
+                .padding(horizontal = 16.dp)
         ) {
-            if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
-            } else {
-                Text("Cadastrar", fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Título do formulário
+            Text(
+                text = "Criar sua conta",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFF2E7D32),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Preencha seus dados para continuar",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Campo Nome
+            OutlinedTextField(
+                value = nome,
+                onValueChange = { nome = it },
+                label = { Text("Nome completo") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF4CAF50),
+                    focusedLabelColor = Color(0xFF4CAF50)
+                ),
+                enabled = !isLoading
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Campo E-mail
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("E-mail") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF4CAF50),
+                    focusedLabelColor = Color(0xFF4CAF50)
+                ),
+                enabled = !isLoading
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Campo Telefone (opcional)
+            OutlinedTextField(
+                value = telefone,
+                onValueChange = { telefone = it },
+                label = { Text("Telefone (opcional)") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF4CAF50),
+                    focusedLabelColor = Color(0xFF4CAF50)
+                ),
+                enabled = !isLoading
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Campo Senha
+            OutlinedTextField(
+                value = senha,
+                onValueChange = { senha = it },
+                label = { Text("Senha") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF4CAF50),
+                    focusedLabelColor = Color(0xFF4CAF50)
+                ),
+                enabled = !isLoading
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Campo Confirmar Senha
+            OutlinedTextField(
+                value = confirmarSenha,
+                onValueChange = { confirmarSenha = it },
+                label = { Text("Confirmar senha") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF4CAF50),
+                    focusedLabelColor = Color(0xFF4CAF50)
+                ),
+                enabled = !isLoading
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Card de requisitos da senha
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = "🔒 Requisitos da senha:",
+                        fontSize = 12.sp,
+                        color = Color(0xFF2E7D32)
+                    )
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (senha.length >= 6) "✅" else "❌",
+                            fontSize = 12.sp,
+                            color = if (senha.length >= 6) Color(0xFF4CAF50) else Color.Gray
+                        )
+                        Text(" Mínimo de 6 caracteres", fontSize = 12.sp, color = Color.Gray)
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (senha.any { it.isLetter() }) "✅" else "❌",
+                            fontSize = 12.sp,
+                            color = if (senha.any { it.isLetter() }) Color(0xFF4CAF50) else Color.Gray
+                        )
+                        Text(" Pelo menos uma letra", fontSize = 12.sp, color = Color.Gray)
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (senha.any { it.isDigit() }) "✅" else "❌",
+                            fontSize = 12.sp,
+                            color = if (senha.any { it.isDigit() }) Color(0xFF4CAF50) else Color.Gray
+                        )
+                        Text(" Pelo menos um número", fontSize = 12.sp, color = Color.Gray)
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (senha.isNotBlank() && senha == confirmarSenha) "✅" else "❌",
+                            fontSize = 12.sp,
+                            color = if (senha.isNotBlank() && senha == confirmarSenha) Color(0xFF4CAF50) else Color.Gray
+                        )
+                        Text(" Senhas coincidem", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Botão Cadastrar
+            Button(
+                onClick = { fazerCadastro() },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                enabled = !isLoading && isSenhaForte(senha) && senha == confirmarSenha
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
+                } else {
+                    Text("Cadastrar", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Linha divisória
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Divider(
+                    modifier = Modifier.weight(1f),
+                    color = Color.LightGray
+                )
+                Text(
+                    text = " ou ",
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+                Divider(
+                    modifier = Modifier.weight(1f),
+                    color = Color.LightGray
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botão Voltar para Login
+            Button(
+                onClick = onVoltarClick,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color(0xFF4CAF50)
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Voltar para Login",
+                    fontSize = 16.sp,
+                    color = Color(0xFF4CAF50),
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botão Voltar
-        TextButton(
-            onClick = onVoltarClick,
-            enabled = !isLoading
-        ) {
-            Text("Voltar para Login", fontSize = 14.sp, color = Color(0xFF4CAF50))
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }

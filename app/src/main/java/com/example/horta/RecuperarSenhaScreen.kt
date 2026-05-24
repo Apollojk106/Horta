@@ -1,14 +1,23 @@
 package com.example.horta
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -135,106 +144,227 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         }
     }
 
+    // Conteúdo com SCROLL
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .verticalScroll(rememberScrollState())
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Recuperar Senha",
-            fontSize = 32.sp,
-            color = Color(0xFF4CAF50)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Digite seu e-mail para receber o token",
-            fontSize = 14.sp,
-            color = Color.Gray
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("E-mail") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF4CAF50),
-                focusedLabelColor = Color(0xFF4CAF50)
-            ),
-            enabled = !isLoading && !tokenEnviado
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { solicitarToken() },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading && !tokenEnviado
+        // PRIMEIRA PARTE: Bgverde com logo e textos
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            if (isLoading && !tokenEnviado) {
-                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
-            } else {
-                Text("Solicitar Token", fontSize = 16.sp)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.bgverde),
+                    contentDescription = "Background Verde",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Conteúdo sobre a imagem
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // Logo
+                    Box(
+                        modifier = Modifier
+                            .size(90.dp)
+                            .background(Color.White, shape = RoundedCornerShape(45.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logoybe),
+                            contentDescription = "Logo",
+                            modifier = Modifier.size(60.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    // Texto YBY MARA YE
+                    Text(
+                        text = "YBY MARA YE",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    Text(
+                        text = "TERRA SEM MAL",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White.copy(alpha = 0.9f)
+                    )
+                }
             }
         }
 
-        if (tokenEnviado) {
-            Spacer(modifier = Modifier.height(24.dp))
+        // SEGUNDA PARTE: Formulário branco
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(horizontal = 16.dp)
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Divider(color = Color.LightGray)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
+            // Título do formulário
             Text(
-                text = "Digite o token recebido",
-                fontSize = 14.sp,
-                color = Color(0xFF4CAF50)
+                text = "Recuperar Senha",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFF2E7D32),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
+            Text(
+                text = "Digite seu e-mail para receber o token",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Campo E-mail
             OutlinedTextField(
-                value = token,
-                onValueChange = { token = it },
-                label = { Text("Token") },
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("E-mail") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF4CAF50),
                     focusedLabelColor = Color(0xFF4CAF50)
                 ),
-                enabled = !isLoading
+                enabled = !isLoading && !tokenEnviado
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botão Solicitar Token
             Button(
-                onClick = { validarToken() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                onClick = { solicitarToken() },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !isLoading
+                enabled = !isLoading && !tokenEnviado
             ) {
-                if (isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
+                if (isLoading && !tokenEnviado) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                 } else {
-                    Text("Validar Token", fontSize = 16.sp)
+                    Text("Solicitar Token", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            // Mostrar campos de token apenas após solicitar
+            if (tokenEnviado) {
+                Spacer(modifier = Modifier.height(24.dp))
 
-        TextButton(
-            onClick = onVoltarClick,
-            enabled = !isLoading
-        ) {
-            Text("Voltar para Login", fontSize = 14.sp, color = Color(0xFF4CAF50))
+                Divider(color = Color.LightGray)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Digite o token recebido",
+                    fontSize = 14.sp,
+                    color = Color(0xFF4CAF50),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Campo Token
+                OutlinedTextField(
+                    value = token,
+                    onValueChange = { token = it },
+                    label = { Text("Token") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color(0xFF4CAF50),
+                        focusedLabelColor = Color(0xFF4CAF50)
+                    ),
+                    enabled = !isLoading
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botão Validar Token
+                Button(
+                    onClick = { validarToken() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
+                ) {
+                    if (isLoading) {
+                        CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
+                    } else {
+                        Text("Validar Token", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Linha divisória
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Divider(
+                    modifier = Modifier.weight(1f),
+                    color = Color.LightGray
+                )
+                Text(
+                    text = " ou ",
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+                Divider(
+                    modifier = Modifier.weight(1f),
+                    color = Color.LightGray
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botão Voltar para Login
+            Button(
+                onClick = onVoltarClick,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color(0xFF4CAF50)
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Voltar para Login",
+                    fontSize = 16.sp,
+                    color = Color(0xFF4CAF50),
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 
@@ -260,6 +390,7 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                     Text(
                         text = "Redefinir Senha",
                         fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
                         color = Color(0xFF4CAF50)
                     )
 

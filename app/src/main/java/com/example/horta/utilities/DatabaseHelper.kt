@@ -15,18 +15,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        //Sessao de login
+        //Sessao de login local
         db.execSQL("""
-        CREATE TABLE IF NOT EXISTS sessao (
-            id_sessao INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_cliente INTEGER NOT NULL,
-            token_sessao TEXT NOT NULL,
-            data_login TEXT DEFAULT CURRENT_TIMESTAMP,
-            data_expiracao TEXT,
-            ativo INTEGER DEFAULT 1,
-            FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
-        )
-    """)
+            CREATE TABLE IF NOT EXISTS sessao (
+                id_sessao INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_cliente INTEGER NOT NULL,
+                token_sessao TEXT NOT NULL,
+                data_login TEXT DEFAULT CURRENT_TIMESTAMP,
+                data_expiracao TEXT,
+                ativo INTEGER DEFAULT 1,
+                FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+            )
+        """)
 
         //sessao manual para poder testar o sistema
         db.execSQL("""
@@ -34,18 +34,32 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             VALUES (1, 1, 'token_sessao_padrao', datetime('now'), datetime('now', '+7 days'), 1);
         """)
 
-        // Token
+        // Token precisaria ser web
         db.execSQL("""
-        CREATE TABLE IF NOT EXISTS token_recuperacao (
-            id_token INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_cliente INTEGER NOT NULL,
-            token TEXT NOT NULL UNIQUE,
-            data_criacao TEXT DEFAULT CURRENT_TIMESTAMP,
-            data_expiracao TEXT NOT NULL,
-            usado INTEGER DEFAULT 0,
-            FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
-        )
-    """)
+            CREATE TABLE IF NOT EXISTS token_recuperacao (
+                id_token INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_cliente INTEGER NOT NULL,
+                token TEXT NOT NULL UNIQUE,
+                data_criacao TEXT DEFAULT CURRENT_TIMESTAMP,
+                data_expiracao TEXT NOT NULL,
+                usado INTEGER DEFAULT 0,
+                FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+            )
+        """)
+
+        //Carrinho local
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS carrinho (
+                id_carrinho INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_produto INTEGER NOT NULL,
+                nome_produto TEXT NOT NULL,
+                quantidade INTEGER NOT NULL,
+                data_adicao TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+            )
+        """)
+
+
 
         // 1. Tabela FORNECEDOR
         db.execSQL("""
@@ -351,7 +365,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS fornecedor")
+        db.execSQL("DROP TABLE IF EXISTS fornecedor")// tabelas fixas
         db.execSQL("DROP TABLE IF EXISTS contato")
         db.execSQL("DROP TABLE IF EXISTS evento")
         db.execSQL("DROP TABLE IF EXISTS doacao")
@@ -365,6 +379,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL("DROP TABLE IF EXISTS pedido_produto")
         db.execSQL("DROP TABLE IF EXISTS horta_evento")
         db.execSQL("DROP TABLE IF EXISTS horta_voluntario")
+
+        db.execSQL("DROP TABLE IF EXISTS token_recuperacao")//utilidades necessarias
+        db.execSQL("DROP TABLE IF EXISTS sessao")
+
         Log.d(TAG, "Tabelas derrubadas!")
         onCreate(db)
     }

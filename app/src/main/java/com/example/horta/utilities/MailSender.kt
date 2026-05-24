@@ -1,4 +1,6 @@
-package com.example.horta.utils
+/* tentativa frustada de mandar email depois retomo
+
+package com.example.horta.utilities
 
 import android.os.AsyncTask
 import javax.mail.*
@@ -12,9 +14,8 @@ class MailSender : AsyncTask<Void, Void, Boolean>() {
     private lateinit var subject: String
     private lateinit var messageBody: String
 
-    // ⚠️ SUBSTITUA PELOS SEUS DADOS
-    private val fromEmail = "seu-email@gmail.com"
-    private val appPassword = "sua-senha-de-app-16-digitos"
+    private val fromEmail = "hortaybe@gmail.com"
+    private val appPassword = ""
 
     fun setData(recipient: String, subject: String, messageBody: String) {
         this.recipient = recipient
@@ -50,8 +51,6 @@ class MailSender : AsyncTask<Void, Void, Boolean>() {
             false
         }
     }
-
-    override fun onPostExecute(success: Boolean) {
-        // Callback opcional para saber se enviou
-    }
 }
+
+*/

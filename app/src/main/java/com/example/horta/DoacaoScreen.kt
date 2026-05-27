@@ -6,61 +6,170 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
+import com.example.horta.ui.components.BaseScreen
 
 @Composable
 fun DoacaoScreen(
-    onNavigateTo: (String) -> Unit,
-    onVoltar: (String) -> Unit,
+    currentRoute: String = "doacao",
+    onNavigateTo: (String) -> Unit
 ) {
-    val currentRoute = "doacao"  // Indica que está na tela Doação
+
+    var valor by remember { mutableStateOf("") }
 
     Scaffold(
+
         bottomBar = {
+
             BottomNavBar(
                 currentRoute = currentRoute,
-                onItemSelected = { route ->
-                    when (route) {
-                        "inicio" -> onNavigateTo("inicio")
-                        "horta" -> onNavigateTo("horta")
-                        "loja" -> onNavigateTo("loja")
-                        "doacao" -> { /* Já está na tela de doação */ }
-                        "pedidos" -> onNavigateTo("pedidos")
-                        "perfil" -> onNavigateTo("perfil")
-                    }
-                }
+                onItemSelected = onNavigateTo
             )
         }
+
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+
+        BaseScreen(
+            titulo = "DOAÇÃO",
+            subtitulo = "Ajude a comunidade"
         ) {
-            // 🔍 TEXTO PARA IDENTIFICAR A TELA (remova depois)
-            Text(
-                text = "📍 TELA: DOAÇÃO",
-                fontSize = 12.sp,
-                color = Color.Red,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
 
-            Text("🎁", fontSize = 64.sp)
-            Text("Doação", fontSize = 32.sp, color = Color(0xFF4CAF50))
-            Spacer(modifier = Modifier.height(16.dp))
-            Text("Ajude a comunidade fazendo uma doação", fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(32.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues),
 
-            Button(
-                onClick = { onNavigateTo("loja") },
-                modifier = Modifier.fillMaxWidth()
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Voltar para Loja")
+
+                // CARD PRINCIPAL
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFE8F5E9)
+                    )
+                ) {
+
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+
+                        Text(
+                            text = "🌱 Faça uma doação",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF2E7D32)
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = "Sua contribuição ajuda no cultivo, manutenção e distribuição de alimentos.",
+                            fontSize = 16.sp
+                        )
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        OutlinedTextField(
+                            value = valor,
+                            onValueChange = { valor = it },
+
+                            label = {
+                                Text("Valor da doação")
+                            },
+
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Button(
+                            onClick = {
+
+                            },
+
+                            modifier = Modifier.fillMaxWidth(),
+
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF4CAF50)
+                            )
+                        ) {
+
+                            Text(
+                                text = "Doar Agora",
+                                fontSize = 18.sp
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // METAS
+                Text(
+                    text = "Metas da Comunidade",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2E7D32),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFF1F8E9)
+                    )
+                ) {
+
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+
+                        Text(
+                            text = "💧 Sistema de irrigação",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        Text("70% arrecadado")
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFF1F8E9)
+                    )
+                ) {
+
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+
+                        Text(
+                            text = "🌿 Expansão da horta",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+
+                        Text("40% arrecadado")
+                    }
+                }
             }
         }
     }

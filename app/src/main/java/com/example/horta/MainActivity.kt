@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("horta") }
+    var telaAtual by remember { mutableStateOf("home") }
     val context = LocalContext.current
 
     when (telaAtual) {
@@ -57,6 +57,11 @@ fun AppNavigation() {
             onVoltarClick = { telaAtual = "login" }
         )
 
+        "home" -> HomeScreen(
+            onNavigateTo = { telaAtual = it }
+        )
+
+
         "horta" -> HortaScreen(
             onNavigateTo = { telaAtual = it },
             onLogout = {
@@ -67,7 +72,6 @@ fun AppNavigation() {
 
         "doacao" -> DoacaoScreen(
             onNavigateTo = { telaAtual = it },
-            onVoltar = { telaAtual = "horta" },
         )
 
         "pedidos" -> PedidosScreen(
@@ -90,8 +94,6 @@ fun AppNavigation() {
                 Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
                 telaAtual = "inicio"
             },
-            onVerHorta = { telaAtual = "horta" },
-            onVerDoacao = { telaAtual = "doacao" }
         )
 
         "carrinho" -> CarrinhoScreen(
@@ -121,3 +123,5 @@ fun AppNavigation() {
         )
     }
 }
+
+

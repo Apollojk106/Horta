@@ -64,7 +64,7 @@ fun PedidosScreen(
                 currentRoute = currentRoute,
                 onItemSelected = { route ->
                     when (route) {
-                        "inicio" -> onNavigateTo("inicio")
+                        "home" -> onNavigateTo("home")
                         "horta" -> onNavigateTo("horta")
                         "loja" -> onNavigateTo("loja")
                         "doacao" -> onNavigateTo("doacao")

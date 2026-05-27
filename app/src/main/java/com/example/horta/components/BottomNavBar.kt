@@ -1,35 +1,37 @@
 package com.example.horta.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.horta.R
 
 // Itens do menu
 data class BottomNavItem(
     val route: String,
-    val icon: String,
+    val icon: Int,
     val label: String
 )
 
 val menuItems = listOf(
-    BottomNavItem("inicio", "🏠", "Início"),
-    BottomNavItem("horta", "🌱", "Horta"),
-    BottomNavItem("loja", "🛒", "Loja"),
-    BottomNavItem("doacao", "🎁", "Doar"),
-    BottomNavItem("pedidos", "📋", "Pedidos"),
-    BottomNavItem("perfil", "👤", "Perfil")
+    BottomNavItem("home", R.drawable.homeicon, "home"),
+    BottomNavItem("horta", R.drawable.hortaicon, "Horta"),
+    BottomNavItem("loja", R.drawable.lojaicon, "Loja"),
+    BottomNavItem("doacao", R.drawable.doaricon, "Doar"),
+    BottomNavItem("perfil", R.drawable.perfilicon, "Perfil")
 )
 
 @Composable
 fun BottomNavBar(
-    currentRoute: String,  // Tela atual (ex: "horta", "loja", etc)
+    currentRoute: String,
     onItemSelected: (String) -> Unit
 ) {
     NavigationBar(
-        containerColor = Color(0xFF4CAF50),  // Fundo verde
-        tonalElevation = 8.dp
+        containerColor = Color(0xFF4CAF50),
+        tonalElevation = 10.dp
     ) {
         menuItems.forEach { item ->
             val isSelected = currentRoute == item.route
@@ -38,10 +40,11 @@ fun BottomNavBar(
                 selected = isSelected,
                 onClick = { onItemSelected(item.route) },
                 icon = {
-                    Text(
-                        text = item.icon,
-                        fontSize = 24.sp,
-                        color = if (isSelected) Color.White else Color.White.copy(alpha = 0.5f)
+                    Icon(
+                        painter = painterResource(id = item.icon),
+                        contentDescription = item.label,
+                        modifier = androidx.compose.ui.Modifier.size(24.dp),
+                        tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.5f)
                     )
                 },
                 label = {
@@ -56,7 +59,7 @@ fun BottomNavBar(
                     selectedTextColor = Color.White,
                     unselectedIconColor = Color.White.copy(alpha = 0.5f),
                     unselectedTextColor = Color.White.copy(alpha = 0.5f),
-                    indicatorColor = Color(0xFF2E7D32)  // Cor de fundo do item selecionado
+                    indicatorColor = Color(0xFF2E7D32)
                 )
             )
         }

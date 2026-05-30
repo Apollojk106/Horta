@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("home") }
+    var telaAtual by remember { mutableStateOf("inicio") }
     val context = LocalContext.current
 
     when (telaAtual) {
@@ -68,10 +68,6 @@ fun AppNavigation() {
                 Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
                 telaAtual = "inicio"
             }
-        )
-
-        "doacao" -> DoacaoScreen(
-            onNavigateTo = { telaAtual = it },
         )
 
         "pedidos" -> PedidosScreen(

@@ -67,7 +67,6 @@ fun PedidosScreen(
                         "home" -> onNavigateTo("home")
                         "horta" -> onNavigateTo("horta")
                         "loja" -> onNavigateTo("loja")
-                        "doacao" -> onNavigateTo("doacao")
                         "pedidos" -> { /* Já está */ }
                         "perfil" -> onNavigateTo("perfil")
                     }

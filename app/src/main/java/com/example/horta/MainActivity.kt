@@ -26,11 +26,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("horta") }
+    var telaAtual by remember { mutableStateOf("home") } //Onde o aplicativo inicia
     val context = LocalContext.current
 
     when (telaAtual) {
-        // Tela inicial
         "inicio" -> InicioScreen(
             onComecarClick = { telaAtual = "login" }
         )

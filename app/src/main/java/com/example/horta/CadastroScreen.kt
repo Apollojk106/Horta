@@ -38,7 +38,6 @@ fun CadastroScreen(
     val context = LocalContext.current
     val repository = remember { ClienteRepository(context) }
 
-    // Função para validar se a senha contém letras E números
     fun isSenhaForte(senha: String): Boolean {
         val temLetra = senha.any { it.isLetter() }
         val temNumero = senha.any { it.isDigit() }
@@ -79,7 +78,6 @@ fun CadastroScreen(
         }
     }
 
-    // Conteúdo com SCROLL
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +85,6 @@ fun CadastroScreen(
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // PRIMEIRA PARTE: Bgverde com logo e textos
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -105,7 +102,6 @@ fun CadastroScreen(
                     contentScale = ContentScale.Crop
                 )
 
-                // Conteúdo sobre a imagem
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,7 +110,6 @@ fun CadastroScreen(
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Logo
                     Box(
                         modifier = Modifier
                             .size(90.dp)
@@ -131,7 +126,6 @@ fun CadastroScreen(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Texto YBY MARA YE
                     Text(
                         text = "YBY MARA YE",
                         fontSize = 24.sp,
@@ -149,7 +143,6 @@ fun CadastroScreen(
             }
         }
 
-        // SEGUNDA PARTE: Formulário branco
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -158,7 +151,6 @@ fun CadastroScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Título do formulário
             Text(
                 text = "Criar sua conta",
                 fontSize = 20.sp,
@@ -180,7 +172,6 @@ fun CadastroScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Campo Nome
             OutlinedTextField(
                 value = nome,
                 onValueChange = { nome = it },
@@ -194,7 +185,6 @@ fun CadastroScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo E-mail
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -208,7 +198,6 @@ fun CadastroScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo Telefone (opcional)
             OutlinedTextField(
                 value = telefone,
                 onValueChange = { telefone = it },
@@ -222,7 +211,6 @@ fun CadastroScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo Senha
             OutlinedTextField(
                 value = senha,
                 onValueChange = { senha = it },
@@ -237,7 +225,6 @@ fun CadastroScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo Confirmar Senha
             OutlinedTextField(
                 value = confirmarSenha,
                 onValueChange = { confirmarSenha = it },
@@ -253,7 +240,6 @@ fun CadastroScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Card de requisitos da senha
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
@@ -305,7 +291,6 @@ fun CadastroScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botão Cadastrar
             Button(
                 onClick = { fazerCadastro() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
@@ -323,7 +308,6 @@ fun CadastroScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Linha divisória
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -346,7 +330,6 @@ fun CadastroScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Voltar para Login
             Button(
                 onClick = onVoltarClick,
                 colors = ButtonDefaults.buttonColors(

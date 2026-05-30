@@ -20,7 +20,6 @@ class ClienteRepository(context: Context) {
         val dataCad: String? = null
     )
 
-    // CADASTRO
     fun cadastrar(nome: String, email: String, senha: String, telefone: String = "", cep: String = ""): Boolean {
         return try {
             val senhaHash = SecurityHelper.hashPassword(senha)
@@ -39,7 +38,6 @@ class ClienteRepository(context: Context) {
         }
     }
 
-    // LOGIN - Retorna cliente e token
     fun login(email: String, senha: String): Pair<Cliente?, String?> {
         val cursor = db.query(
             "cliente",
@@ -55,13 +53,12 @@ class ClienteRepository(context: Context) {
             if (SecurityHelper.verifyPassword(senha, hashSalvo)) {
                 val cliente = Cliente(
                     id = cursor.getLong(0),
-                    nome = cursor.getString(1),  // ← Campo nome
+                    nome = cursor.getString(1),
                     email = cursor.getString(2),
                     senhaHash = hashSalvo,
                     telefone = cursor.getString(4),
                     cep = cursor.getString(5)
                 )
-                // Criar sessão para o usuário logado
                 val token = sessaoRepo.criarSessao(cliente.id)
                 cursor.close()
                 Pair(cliente, token)
@@ -92,7 +89,7 @@ class ClienteRepository(context: Context) {
                 senhaHash = cursor.getString(3),
                 telefone = cursor.getString(4),
                 cep = cursor.getString(5),
-                dataCad = cursor.getString(6)  // Adicione este campo
+                dataCad = cursor.getString(6)
             )
         } else {
             null
@@ -112,7 +109,6 @@ class ClienteRepository(context: Context) {
         return existe
     }
 
-    // Buscar cliente por email (para recuperação de senha)
     fun getClienteByEmail(email: String): Cliente? {
         val cursor = db.query(
             "cliente",
@@ -136,7 +132,6 @@ class ClienteRepository(context: Context) {
         }.also { cursor.close() }
     }
 
-    // Atualizar senha
     fun atualizarSenha(idCliente: Long, novaSenha: String): Boolean {
         val novaSenhaHash = SecurityHelper.hashPassword(novaSenha)
         val values = ContentValues().apply {

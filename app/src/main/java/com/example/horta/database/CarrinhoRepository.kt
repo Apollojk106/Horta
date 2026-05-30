@@ -13,7 +13,6 @@ data class ItemCarrinho(
 class Carrinho {
     private val itens = mutableListOf<ItemCarrinho>()
 
-    // Adicionar item ao carrinho
     fun adicionarItem(produtoId: Long, nome: String, preco: Double, quantidade: Int = 1) {
         val itemExistente = itens.find { it.idProduto == produtoId }
 
@@ -25,12 +24,10 @@ class Carrinho {
         }
     }
 
-    // Remover item do carrinho
     fun removerItem(produtoId: Long) {
         itens.removeAll { it.idProduto == produtoId }
     }
 
-    // Atualizar quantidade de um item
     fun atualizarQuantidade(produtoId: Long, quantidade: Int) {
         val index = itens.indexOfFirst { it.idProduto == produtoId }
         if (index != -1) {
@@ -43,20 +40,15 @@ class Carrinho {
         }
     }
 
-    // Limpar carrinho
     fun limpar() {
         itens.clear()
     }
 
-    // Obter todos os itens
     fun getItens(): List<ItemCarrinho> = itens.toList()
 
-    // Obter total do carrinho
     fun getTotal(): Double = itens.sumOf { it.subtotal }
 
-    // Obter quantidade total de itens
     fun getQuantidadeTotal(): Int = itens.sumOf { it.quantidade }
 
-    // Verificar se carrinho está vazio
     fun isEmpty(): Boolean = itens.isEmpty()
 }

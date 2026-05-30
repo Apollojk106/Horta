@@ -67,7 +67,6 @@ fun LoginScreen(
         }
     }
 
-    // Conteúdo com SCROLL - SEM padding nas laterais para o bgverde ocupar tudo
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +74,6 @@ fun LoginScreen(
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // PRIMEIRA PARTE: Bgverde ocupando toda a largura (sem padding)
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -93,7 +91,6 @@ fun LoginScreen(
                     contentScale = ContentScale.Crop
                 )
 
-                // Conteúdo sobre a imagem
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -119,7 +116,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Texto YBY MARA YE
                     Text(
                         text = "YBY MARA YE",
                         fontSize = 24.sp,
@@ -137,16 +133,14 @@ fun LoginScreen(
             }
         }
 
-        // SEGUNDA PARTE: Fundo branco começa aqui (com padding nas laterais)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(horizontal = 16.dp)  // Padding apenas no conteúdo branco
+                .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Título do formulário
             Text(
                 text = "Acessar sua conta",
                 fontSize = 20.sp,
@@ -168,7 +162,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Campo E-mail
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -183,7 +176,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo Senha
             OutlinedTextField(
                 value = senha,
                 onValueChange = { senha = it },
@@ -199,7 +191,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Botão Esqueci a senha
             TextButton(
                 onClick = onEsqueciSenhaClick,
                 modifier = Modifier.align(Alignment.End),
@@ -214,7 +205,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Entrar
             Button(
                 onClick = { fazerLogin() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
@@ -240,7 +230,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Linha divisória
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -263,7 +252,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Criar nova conta
             Button(
                 onClick = onCadastroClick,
                 colors = ButtonDefaults.buttonColors(

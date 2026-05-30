@@ -56,13 +56,11 @@ fun PerfilScreen(
                 .verticalScroll(rememberScrollState())
                 .background(Color(0xFFF5F5F5))
         ) {
-            // Header com imagem de fundo
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(140.dp)
             ) {
-                // Imagem de fundo
                 Image(
                     painter = painterResource(id = R.drawable.fundos),
                     contentDescription = "Fundo",
@@ -70,14 +68,12 @@ fun PerfilScreen(
                     contentScale = ContentScale.Crop
                 )
 
-                // Conteúdo sobre a imagem (ícone à esquerda + nome/email)
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 24.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Ícone de perfil circular com fundo branco
                     Box(
                         modifier = Modifier
                             .size(70.dp)
@@ -95,7 +91,6 @@ fun PerfilScreen(
 
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    // Nome e email (à direita do ícone)
                     Column {
                         Text(
                             text = "Apollo Henrique",
@@ -112,14 +107,12 @@ fun PerfilScreen(
                 }
             }
 
-            // Conteúdo (com fundo branco)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(16.dp)
             ) {
-                // Cards de estatísticas
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,7 +138,6 @@ fun PerfilScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Menu de opções
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -153,7 +145,6 @@ fun PerfilScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Column {
-                        // Opção 1: Dados pessoais
                         MenuOption(
                             icon = "👤",
                             title = "Dados pessoais",
@@ -173,7 +164,6 @@ fun PerfilScreen(
 
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
 
-                        // Opção 3: Segurança
                         MenuOption(
                             icon = "🔒",
                             title = "Segurança",
@@ -185,7 +175,6 @@ fun PerfilScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Botão Sair
                 Button(
                     onClick = onLogout,
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)),
@@ -199,7 +188,6 @@ fun PerfilScreen(
         }
     }
 
-    // Dialogs (mantidos iguais)
     if (mostrarDialogDados) {
         Dialog(onDismissRequest = { mostrarDialogDados = false }) {
             Card(

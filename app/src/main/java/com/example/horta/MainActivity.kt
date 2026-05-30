@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("inicio") }
+    var telaAtual by remember { mutableStateOf("horta") }
     val context = LocalContext.current
 
     when (telaAtual) {

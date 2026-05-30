@@ -1,6 +1,7 @@
 package com.example.horta.ui.theme
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,15 +21,12 @@ fun HortaScreen(
 ) {
 
     Scaffold(
-
         bottomBar = {
-
             BottomNavBar(
                 currentRoute = currentRoute,
                 onItemSelected = onNavigateTo
             )
         }
-
     ) { paddingValues ->
 
         BaseScreen(
@@ -40,165 +38,184 @@ fun HortaScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues),
-
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // STATUS DA HORTA
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFE8F5E9)
-                    )
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
-
                         Text(
-                            text = "🌱 Situação Atual",
+                            text = "Impacto da comunidade",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF2E7D32)
+                            color = Color.Black
                         )
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
                         Text(
-                            text = "• Temperatura ideal",
-                            fontSize = 16.sp
-                        )
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        Text(
-                            text = "• Solo úmido",
-                            fontSize = 16.sp
-                        )
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        Text(
-                            text = "• Irrigação concluída",
-                            fontSize = 16.sp
-                        )
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        Text(
-                            text = "• 85% de crescimento",
-                            fontSize = 16.sp
+                            text = "Veja como sua ajuda transforma vidas e a nossa horta!",
+                            fontSize = 14.sp,
+                            color = Color.Gray
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // RESULTADOS
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    StatCardHorta(
+                        modifier = Modifier.weight(1f),
+                        valor = "R$ 4.650",
+                        descricao = "arrecadados\neste mês"
+                    )
+                    StatCardHorta(
+                        modifier = Modifier.weight(1f),
+                        valor = "128 kg",
+                        descricao = "alimentos\ncolhidos"
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    StatCardHorta(
+                        modifier = Modifier.weight(1f),
+                        valor = "56",
+                        descricao = "famílias\nbeneficiadas"
+                    )
+                    StatCardHorta(
+                        modifier = Modifier.weight(1f),
+                        valor = "23",
+                        descricao = "voluntários\nativos"
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
                 Text(
-                    text = "Resultados da Horta",
+                    text = "Metas da Horta",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF2E7D32),
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFF1F8E9)
-                    )
-                ) {
-
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-
-                        Text(
-                            text = "🥬 Alface",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        Text(
-                            text = "Produção estimada: 12 unidades"
-                        )
-
-                        Text(
-                            text = "Colheita prevista: 5 dias"
-                        )
-                    }
-                }
-
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
+                MetaCard(
+                    valor = "R$ 120,00",
+                    descricao = "Adubo para a horta",
+                    status = "Concluída",
+                    statusColor = Color(0xFF4CAF50)
+                )
 
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFF1F8E9)
-                    )
-                ) {
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
+                MetaCard(
+                    valor = "R$ 80,00",
+                    descricao = "Ferramentas",
+                    status = "Concluída",
+                    statusColor = Color(0xFF4CAF50)
+                )
 
-                        Text(
-                            text = "🍅 Tomate",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                Spacer(modifier = Modifier.height(8.dp))
 
-                        Spacer(modifier = Modifier.height(6.dp))
+                MetaCard(
+                    valor = "R$ 60,00",
+                    descricao = "Sementes",
+                    status = "Em andamento",
+                    statusColor = Color(0xFFFF9800)
+                )
+            }
+        }
+    }
+}
 
-                        Text(
-                            text = "Produção estimada: 8kg"
-                        )
+@Composable
+fun StatCardHorta(
+    modifier: Modifier = Modifier,
+    valor: String,
+    descricao: String
+) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = valor,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF2E7D32)
+            )
+            Text(
+                text = descricao,
+                fontSize = 11.sp,
+                color = Color.Gray,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+        }
+    }
+}
 
-                        Text(
-                            text = "Colheita prevista: 10 dias"
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // BOTÕES
-                Button(
-                    onClick = { onNavigateTo("loja") },
-
-                    modifier = Modifier.fillMaxWidth(),
-
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF4CAF50)
-                    )
-                ) {
-
-                    Text("Ir para Loja")
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Button(
-                    onClick = onLogout,
-
-                    modifier = Modifier.fillMaxWidth(),
-
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFF44336)
-                    )
-                ) {
-
-                    Text("Sair")
-                }
+@Composable
+fun MetaCard(
+    valor: String,
+    descricao: String,
+    status: String,
+    statusColor: Color
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = valor,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2E7D32)
+                )
+                Text(
+                    text = descricao,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = statusColor.copy(alpha = 0.2f)
+            ) {
+                Text(
+                    text = status,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = statusColor,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                )
             }
         }
     }

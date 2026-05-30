@@ -39,14 +39,12 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
     val clienteRepo = remember { ClienteRepository(context) }
     val tokenRepo = remember { TokenRecuperacaoRepository(context) }
 
-    // Função para verificar se a senha é forte (letras + números)
     fun isSenhaForte(senha: String): Boolean {
         val temLetra = senha.any { it.isLetter() }
         val temNumero = senha.any { it.isDigit() }
         return senha.length >= 6 && temLetra && temNumero
     }
 
-    // Função para solicitar token
     fun solicitarToken() {
         if (email.isBlank()) {
             Toast.makeText(context, "Digite seu e-mail!", Toast.LENGTH_SHORT).show()
@@ -78,7 +76,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         }
     }
 
-    // Função para validar token
     fun validarToken() {
         if (token.isBlank()) {
             Toast.makeText(context, "Digite o token recebido!", Toast.LENGTH_SHORT).show()
@@ -112,7 +109,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         }
     }
 
-    // Função para redefinir senha
     fun redefinirSenha(novaSenha: String, confirmarSenha: String) {
         when {
             novaSenha.isBlank() -> Toast.makeText(context, "Digite uma nova senha!", Toast.LENGTH_SHORT).show()
@@ -144,7 +140,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         }
     }
 
-    // Conteúdo com SCROLL
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -152,7 +147,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // PRIMEIRA PARTE: Bgverde com logo e textos
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -170,7 +164,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                     contentScale = ContentScale.Crop
                 )
 
-                // Conteúdo sobre a imagem
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -196,7 +189,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Texto YBY MARA YE
                     Text(
                         text = "YBY MARA YE",
                         fontSize = 24.sp,
@@ -214,7 +206,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
             }
         }
 
-        // SEGUNDA PARTE: Formulário branco
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -223,7 +214,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Título do formulário
             Text(
                 text = "Recuperar Senha",
                 fontSize = 20.sp,
@@ -245,7 +235,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Campo E-mail
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -260,7 +249,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Solicitar Token
             Button(
                 onClick = { solicitarToken() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
@@ -274,7 +262,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                 }
             }
 
-            // Mostrar campos de token apenas após solicitar
             if (tokenEnviado) {
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -292,7 +279,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Campo Token
                 OutlinedTextField(
                     value = token,
                     onValueChange = { token = it },
@@ -307,7 +293,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botão Validar Token
                 Button(
                     onClick = { validarToken() },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
@@ -324,7 +309,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Linha divisória
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -347,7 +331,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botão Voltar para Login
             Button(
                 onClick = onVoltarClick,
                 colors = ButtonDefaults.buttonColors(
@@ -368,7 +351,6 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
         }
     }
 
-    // Dialog para redefinir senha
     if (mostrarDialog) {
         var novaSenha by remember { mutableStateOf("") }
         var confirmarSenha by remember { mutableStateOf("") }

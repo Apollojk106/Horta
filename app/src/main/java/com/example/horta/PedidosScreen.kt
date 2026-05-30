@@ -26,7 +26,6 @@ fun PedidosScreen(
 ) {
     val currentRoute = "pedidos"
 
-    // Lista de pedidos finalizados (exemplo)
     val pedidos = listOf(
         Pedido(
             id = 1,
@@ -99,7 +98,6 @@ fun PedidosScreen(
                     Text("Faça sua primeira compra!", fontSize = 14.sp, color = Color.Gray)
                 }
             } else {
-                // Lista de pedidos
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {

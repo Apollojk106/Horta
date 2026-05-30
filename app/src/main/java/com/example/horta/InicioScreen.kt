@@ -27,7 +27,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
-        // Primeira imagem de fundo (bg1inicio)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,7 +78,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
             }
         }
 
-        // Segunda imagem de fundo (bg2inicio)
         Image(
             painter = painterResource(id = R.drawable.bg2inicio),
             contentDescription = "Background 2",
@@ -89,7 +87,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Conteúdo principal
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,7 +95,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Frase 1
             Text(
                 text = "Cultivando um futuro melhor",
                 fontSize = 20.sp,
@@ -107,7 +103,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
                 textAlign = TextAlign.Center
             )
 
-            // Imagem estática 1
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,7 +120,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Frase 2
             Text(
                 text = "Pequenas ações grandes colheitas",
                 fontSize = 16.sp,
@@ -135,7 +129,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Imagem estática 2
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,7 +146,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Carrosel
             Text(
                 text = "Cultive Mudança!",
                 fontSize = 18.sp,
@@ -174,7 +166,6 @@ fun InicioScreen(onComecarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Botão Começar
             Button(
                 onClick = onComecarClick,
                 colors = ButtonDefaults.buttonColors(

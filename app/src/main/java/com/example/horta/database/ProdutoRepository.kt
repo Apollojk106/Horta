@@ -12,21 +12,30 @@ class ProdutoRepository(context: Context) {
         val nome: String,
         val preco: Double,
         val quantidade: Int,
-        val dataColheita: String
+        val dataColheita: String,
+        val tipo: String = ""
     )
 
     fun getAllProdutos(): List<Produto> {
         val produtos = mutableListOf<Produto>()
-        val cursor = db.query("produto", null, null, null, null, null, "nome")
+        val query = """
+            SELECT p.id_produto, p.nome, p.preco, p.quantidade, p.data_colheita, 
+                   COALESCE(t.nome_tipo, '') as tipo
+            FROM produto p
+            LEFT JOIN tipo_produto t ON p.id_tipo = t.id_tipo
+            ORDER BY p.nome
+        """
+        val cursor = db.rawQuery(query, null)
 
         while (cursor.moveToNext()) {
             produtos.add(
                 Produto(
-                    id = cursor.getLong(cursor.getColumnIndexOrThrow("id_produto")),
-                    nome = cursor.getString(cursor.getColumnIndexOrThrow("nome")),
-                    preco = cursor.getDouble(cursor.getColumnIndexOrThrow("preco")),
-                    quantidade = cursor.getInt(cursor.getColumnIndexOrThrow("quantidade")),
-                    dataColheita = cursor.getString(cursor.getColumnIndexOrThrow("data_colheita"))
+                    id = cursor.getLong(0),
+                    nome = cursor.getString(1),
+                    preco = cursor.getDouble(2),
+                    quantidade = cursor.getInt(3),
+                    dataColheita = cursor.getString(4),
+                    tipo = cursor.getString(5)
                 )
             )
         }

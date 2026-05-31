@@ -140,4 +140,12 @@ class ClienteRepository(context: Context) {
         val rows = db.update("cliente", values, "id_cliente = ?", arrayOf(idCliente.toString()))
         return rows > 0
     }
+
+    fun atualizarNome(idCliente: Long, novoNome: String): Boolean {
+        val values = ContentValues().apply {
+            put("nome", novoNome)
+        }
+        val rows = db.update("cliente", values, "id_cliente = ?", arrayOf(idCliente.toString()))
+        return rows > 0
+    }
 }

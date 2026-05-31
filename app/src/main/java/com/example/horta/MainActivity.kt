@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("home") } //Onde o aplicativo inicia
+    var telaAtual by remember { mutableStateOf("loja") } //Onde o aplicativo inicia
     val context = LocalContext.current
 
     when (telaAtual) {
@@ -85,10 +85,6 @@ fun AppNavigation() {
         "loja" -> LojaScreen(
             onNavigateTo = { telaAtual = it },
             onVerCarrinho = { telaAtual = "carrinho" },
-            onLogout = {
-                Toast.makeText(context, "Logout realizado!", Toast.LENGTH_SHORT).show()
-                telaAtual = "inicio"
-            },
         )
 
         "carrinho" -> CarrinhoScreen(
@@ -118,5 +114,7 @@ fun AppNavigation() {
         )
     }
 }
+
+
 
 

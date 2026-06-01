@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("loja") } //Onde o aplicativo inicia
+    var telaAtual by remember { mutableStateOf("carrinho") } //Onde o aplicativo inicia
     val context = LocalContext.current
 
     when (telaAtual) {
@@ -96,13 +96,15 @@ fun AppNavigation() {
         "entrega" -> EntregaScreen(
             onNavigateTo = { telaAtual = it },
             onProximo = { telaAtual = "pagamento" },
-            onVoltar = { telaAtual = "carrinho" }
+            onVoltar = { telaAtual = "carrinho" },
+            onVerCarrinho = { telaAtual = "carrinho" },
         )
 
         "pagamento" -> PagamentoScreen(
             onNavigateTo = { telaAtual = it },
             onConfirmar = { telaAtual = "qrcode" },
-            onVoltar = { telaAtual = "entrega" }
+            onVoltar = { telaAtual = "entrega" },
+            onVerCarrinho = { telaAtual = "carrinho" },
         )
 
         "qrcode" -> QRcodeScreen(

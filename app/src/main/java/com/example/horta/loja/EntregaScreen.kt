@@ -10,12 +10,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
 import com.example.horta.ui.components.BaseScreen
+import com.example.horta.ui.components.LojaBaseScreen
+import com.example.horta.ui.components.TopBarCompleta
 
 @Composable
 fun EntregaScreen(
     onNavigateTo: (String) -> Unit,
     onProximo: () -> Unit,
-    onVoltar: () -> Unit
+    onVoltar: () -> Unit,
+    onVerCarrinho: () -> Unit
 ) {
     var endereco by remember { mutableStateOf("") }
     var numero by remember { mutableStateOf("") }
@@ -32,10 +35,14 @@ fun EntregaScreen(
             )
         }
     ) { paddingValues ->
-        BaseScreen(
-            titulo = "Entrega",
-            subtitulo = "Informe seu endereço"
+        LojaBaseScreen(
+            onCarrinhoClick = onVerCarrinho
         ) {
+            TopBarCompleta(
+                titulo = "Endereço",
+                onVoltarClick = onVoltar,
+                onLimparClick = { }
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

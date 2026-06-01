@@ -10,12 +10,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
 import com.example.horta.ui.components.BaseScreen
+import com.example.horta.ui.components.LojaBaseScreen
 
 @Composable
 fun PagamentoScreen(
     onNavigateTo: (String) -> Unit,
     onConfirmar: () -> Unit,
-    onVoltar: () -> Unit
+    onVoltar: () -> Unit,
+    onVerCarrinho: () -> Unit
 ) {
     var selectedPayment by remember { mutableStateOf("credito") }
     val currentRoute = "loja"
@@ -28,9 +30,8 @@ fun PagamentoScreen(
             )
         }
     ) { paddingValues ->
-        BaseScreen(
-            titulo = "Pagamento",
-            subtitulo = "Escolha a forma de pagamento"
+        LojaBaseScreen(
+            onCarrinhoClick = onVerCarrinho
         ) {
             Column(
                 modifier = Modifier

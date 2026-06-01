@@ -1,18 +1,20 @@
 package com.example.horta.loja
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
 import com.example.horta.database.CarrinhoRepository
 import com.example.horta.database.ProdutoRepository
-import com.example.horta.ui.components.BaseScreen
+import com.example.horta.ui.components.LojaBaseScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,6 +33,16 @@ fun LojaScreen(
 
     var produtos by remember { mutableStateOf<List<ProdutoRepository.Produto>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+
+    // Estado da busca
+    var searchQuery by remember { mutableStateOf("") }
+
+    // Produtos filtrados com base na busca
+    val produtosFiltrados = if (searchQuery.isBlank()) {
+        produtos
+    } else {
+        produtos.filter { it.nome.contains(searchQuery, ignoreCase = true) }
+    }
 
     var quantidades by remember { mutableStateOf(mutableMapOf<Long, Int>()) }
     var totalCarrinhoAtual by remember { mutableStateOf(0.0) }
@@ -144,9 +156,8 @@ fun LojaScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
 
-        BaseScreen(
-            titulo = "LOJA",
-            subtitulo = "Produtos disponíveis"
+        LojaBaseScreen(
+            onCarrinhoClick = onVerCarrinho
         ) {
 
             Column(
@@ -163,79 +174,111 @@ fun LojaScreen(
                         CircularProgressIndicator()
                     }
                 } else {
-                    produtos.forEach { produto ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFFE8F5E9)
-                            )
-                        ) {
-                            Column(
+                    // Campo de busca
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        label = { Text("Buscar produto...") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFF4CAF50),
+                            focusedLabelColor = Color(0xFF4CAF50)
+                        )
+                    )
+
+                    // Mostrar resultado da busca
+                    Text(
+                        text = "Produtos encontrados: ${produtosFiltrados.size}",
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    // LISTA DE PRODUTOS FILTRADOS
+                    if (produtosFiltrados.isEmpty()) {
+                        Text(
+                            text = "Nenhum produto encontrado",
+                            fontSize = 16.sp,
+                            color = Color.Gray,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        produtosFiltrados.forEach { produto ->
+                            Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp)
+                                    .padding(bottom = 12.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(0xFFE8F5E9)
+                                )
                             ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.Top
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
                                 ) {
-                                    Column(modifier = Modifier.weight(1f)) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.Top
+                                    ) {
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = produto.nome,
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFF2E7D32)
+                                            )
+                                            Text(
+                                                text = "Estoque: ${produto.quantidade}",
+                                                fontSize = 12.sp,
+                                                color = Color.Gray
+                                            )
+                                            Text(
+                                                text = "Colheita: ${produto.dataColheita}",
+                                                fontSize = 12.sp,
+                                                color = Color.Gray
+                                            )
+                                        }
                                         Text(
-                                            text = produto.nome,
+                                            text = "R$ ${String.format("%.2f", produto.preco)}",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF4CAF50)
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.End,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        IconButton(
+                                            onClick = { diminuirQuantidade(produto) },
+                                            modifier = Modifier.size(36.dp),
+                                            enabled = (quantidades[produto.id] ?: 0) > 0
+                                        ) {
+                                            Text("➖", fontSize = 20.sp)
+                                        }
+
+                                        Text(
+                                            text = "${quantidades[produto.id] ?: 0}",
                                             fontSize = 18.sp,
-                                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                            color = Color(0xFF2E7D32)
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(horizontal = 12.dp)
                                         )
-                                        Text(
-                                            text = "Estoque: ${produto.quantidade}",
-                                            fontSize = 12.sp,
-                                            color = Color.Gray
-                                        )
-                                        Text(
-                                            text = "Colheita: ${produto.dataColheita}",
-                                            fontSize = 12.sp,
-                                            color = Color.Gray
-                                        )
-                                    }
-                                    Text(
-                                        text = "R$ ${String.format("%.2f", produto.preco)}",
-                                        fontSize = 20.sp,
-                                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                        color = Color(0xFF4CAF50)
-                                    )
-                                }
 
-                                Spacer(modifier = Modifier.height(12.dp))
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.End,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    IconButton(
-                                        onClick = { diminuirQuantidade(produto) },
-                                        modifier = Modifier.size(36.dp),
-                                        enabled = (quantidades[produto.id] ?: 0) > 0
-                                    ) {
-                                        Text("➖", fontSize = 20.sp)
-                                    }
-
-                                    Text(
-                                        text = "${quantidades[produto.id] ?: 0}",
-                                        fontSize = 18.sp,
-                                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                        modifier = Modifier.padding(horizontal = 12.dp)
-                                    )
-
-                                    IconButton(
-                                        onClick = { aumentarQuantidade(produto) },
-                                        modifier = Modifier.size(36.dp),
-                                        enabled = (quantidades[produto.id] ?: 0) < produto.quantidade
-                                    ) {
-                                        Text("➕", fontSize = 20.sp)
+                                        IconButton(
+                                            onClick = { aumentarQuantidade(produto) },
+                                            modifier = Modifier.size(36.dp),
+                                            enabled = (quantidades[produto.id] ?: 0) < produto.quantidade
+                                        ) {
+                                            Text("➕", fontSize = 20.sp)
+                                        }
                                     }
                                 }
                             }
@@ -263,7 +306,7 @@ fun LojaScreen(
                     Text(
                         text = "Novo total: R$ ${String.format("%.2f", totalCarrinhoTemp)}",
                         fontSize = 18.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         color = Color(0xFF4CAF50)
                     )
                 }

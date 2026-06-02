@@ -41,16 +41,13 @@ fun PerfilScreen(
     val context = LocalContext.current
 
     var mostrarDialogDados by remember { mutableStateOf(false) }
-    var mostrarDialogPedidos by remember { mutableStateOf(false) }
     var mostrarDialogSeguranca by remember { mutableStateOf(false) }
 
-    // Dados do usuário
     var nomeUsuario by remember { mutableStateOf("Carregando...") }
     var emailUsuario by remember { mutableStateOf("Carregando...") }
     var clienteId by remember { mutableStateOf(0L) }
     var isLoading by remember { mutableStateOf(true) }
 
-    // Dados do endereço
     var enderecoRua by remember { mutableStateOf("") }
     var enderecoNumero by remember { mutableStateOf("") }
     var enderecoBairro by remember { mutableStateOf("") }
@@ -59,11 +56,10 @@ fun PerfilScreen(
     var enderecoCep by remember { mutableStateOf("") }
     var enderecoComplemento by remember { mutableStateOf("") }
 
-    // Lista de pedidos
-    var pedidosList by remember { mutableStateOf<List<PedidoRepository.Pedido>>(emptyList()) }
-    var isLoadingPedidos by remember { mutableStateOf(true) }
+    var totalPedidos by remember { mutableStateOf(0) }
+    var pedidosEmAndamento by remember { mutableStateOf(0) }
+    var pedidosEntregues by remember { mutableStateOf(0) }
 
-    // Buscar dados do usuário logado
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             try {
@@ -89,7 +85,6 @@ fun PerfilScreen(
                         isLoading = false
                     }
 
-                    // Buscar endereço do cliente
                     val endereco = enderecoRepo.getEnderecoByClienteId(sessao.idCliente)
                     withContext(Dispatchers.Main) {
                         if (endereco != null) {
@@ -103,18 +98,17 @@ fun PerfilScreen(
                         }
                     }
 
-                    // Buscar pedidos do cliente
                     val pedidos = pedidoRepo.getPedidosByCliente(sessao.idCliente)
                     withContext(Dispatchers.Main) {
-                        pedidosList = pedidos
-                        isLoadingPedidos = false
+                        totalPedidos = pedidos.size
+                        pedidosEmAndamento = pedidos.count { it.status == "Em andamento" }
+                        pedidosEntregues = pedidos.count { it.status == "Entregue" }
                     }
                 } else {
                     withContext(Dispatchers.Main) {
                         nomeUsuario = "Não logado"
                         emailUsuario = "faça login novamente"
                         isLoading = false
-                        isLoadingPedidos = false
                     }
                 }
             } catch (e: Exception) {
@@ -122,7 +116,6 @@ fun PerfilScreen(
                     nomeUsuario = "Erro ao carregar"
                     emailUsuario = e.message ?: "Erro"
                     isLoading = false
-                    isLoadingPedidos = false
                 }
             }
         }
@@ -223,17 +216,17 @@ fun PerfilScreen(
                 ) {
                     StatCard(
                         modifier = Modifier.weight(1f),
-                        number = "12",
+                        number = totalPedidos.toString(),
                         label = "Pedidos"
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
-                        number = "3",
+                        number = pedidosEmAndamento.toString(),
                         label = "Em andamento"
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
-                        number = "9",
+                        number = pedidosEntregues.toString(),
                         label = "Entregues"
                     )
                 }
@@ -252,15 +245,6 @@ fun PerfilScreen(
                             title = "Dados pessoais",
                             subtitle = "Atualize suas informações",
                             onClick = { mostrarDialogDados = true },
-                        )
-
-                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
-
-                        MenuOption(
-                            iconRes = R.drawable.bagicon,
-                            title = "Meus pedidos",
-                            subtitle = "Acompanhe seus pedidos",
-                            onClick = { mostrarDialogPedidos = true }
                         )
 
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -482,118 +466,6 @@ fun PerfilScreen(
                                 Text("Salvar")
                             }
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    if (mostrarDialogPedidos) {
-        Dialog(onDismissRequest = { mostrarDialogPedidos = false }) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(22.dp)
-                    .heightIn(max = 500.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Text(
-                        text = "Meus pedidos",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2E7D32)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    if (isLoadingPedidos) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    } else if (pedidosList.isEmpty()) {
-                        Text(
-                            text = "Nenhum pedido encontrado",
-                            fontSize = 18.sp,
-                            color = Color.Gray,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                        )
-                    } else {
-                        pedidosList.forEach { pedido ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 12.dp),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9))
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(16.dp)
-                                ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Text(
-                                            text = "Pedido #${pedido.id}",
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color(0xFF2E7D32)
-                                        )
-                                        Surface(
-                                            shape = RoundedCornerShape(20.dp),
-                                            color = if (pedido.status == "Entregue")
-                                                Color(0xFF4CAF50).copy(alpha = 0.2f)
-                                            else
-                                                Color(0xFFFF9800).copy(alpha = 0.2f)
-                                        ) {
-                                            Text(
-                                                text = pedido.status,
-                                                fontSize = 11.sp,
-                                                color = if (pedido.status == "Entregue") Color(0xFF4CAF50) else Color(0xFFFF9800),
-                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
-                                            )
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        text = "Data do pedido: ${pedido.dataPedido}",
-                                        fontSize = 12.sp,
-                                        color = Color.Gray
-                                    )
-                                    Text(
-                                        text = "Previsão de entrega: ${pedido.dataEntrega}",
-                                        fontSize = 12.sp,
-                                        color = Color.Gray
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        text = "Total: R$ ${String.format("%.2f", pedido.total)}",
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF4CAF50)
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        onClick = { mostrarDialogPedidos = false },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
-                    ) {
-                        Text("Fechar", color = Color.White)
                     }
                 }
             }

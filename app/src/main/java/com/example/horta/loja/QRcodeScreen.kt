@@ -1,20 +1,25 @@
 package com.example.horta.loja
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
-import com.example.horta.ui.components.BaseScreen
+import com.example.horta.R
+import com.example.horta.ui.components.LojaBaseScreen
+import com.example.horta.ui.components.TopBarCompleta
 
 @Composable
 fun QRcodeScreen(
     onNavigateTo: (String) -> Unit,
-    onConcluir: () -> Unit
+    onConcluir: () -> Unit,
+    onVerCarrinho: () -> Unit
 ) {
     val currentRoute = "loja"
 
@@ -26,9 +31,8 @@ fun QRcodeScreen(
             )
         }
     ) { paddingValues ->
-        BaseScreen(
-            titulo = "QR Code",
-            subtitulo = "Escaneie o código para pagamento"
+        LojaBaseScreen(
+            onCarrinhoClick = onVerCarrinho
         ) {
             Column(
                 modifier = Modifier
@@ -37,17 +41,38 @@ fun QRcodeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                TopBarCompleta(
+                    titulo = "QR Code",
+                    onVoltarClick = {},
+                    onLimparClick = { }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Card(
                     modifier = Modifier.size(200.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.Black)
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("QR Code", color = Color.White, fontSize = 16.sp)
+                        Image(
+                            painter = painterResource(id = R.drawable.qrcode),
+                            contentDescription = "QR Code",
+                            modifier = Modifier.size(150.dp)
+                        )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Escaneie o QR Code com seu banco",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
@@ -56,7 +81,7 @@ fun QRcodeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
-                    Text("Concluir Compra", fontSize = 18.sp)
+                    Text("Continuar", fontSize = 18.sp)
                 }
             }
         }

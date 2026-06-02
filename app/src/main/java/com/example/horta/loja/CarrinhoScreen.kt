@@ -25,7 +25,8 @@ fun CarrinhoScreen(
     currentRoute: String = "loja",
     onNavigateTo: (String) -> Unit,
     onFinalizar: () -> Unit,
-    onVoltar: () -> Unit
+    onVoltar: () -> Unit,
+    onAtualizarTotal: (Double) -> Unit = {}
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -84,6 +85,10 @@ fun CarrinhoScreen(
 
     LaunchedEffect(Unit) {
         carregarCarrinho()
+    }
+
+    LaunchedEffect(totalCarrinho) {
+        onAtualizarTotal(totalCarrinho)
     }
 
     Scaffold(
@@ -272,7 +277,6 @@ fun CarrinhoScreen(
         }
     }
 
-    // Dialog de confirmação para limpar o carrinho
     if (mostrarDialogLimpar) {
         AlertDialog(
             onDismissRequest = { mostrarDialogLimpar = false },

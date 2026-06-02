@@ -19,6 +19,7 @@ val menuItems = listOf(
     BottomNavItem("home", R.drawable.homeicon, "home"),
     BottomNavItem("horta", R.drawable.hortaicon, "Horta"),
     BottomNavItem("loja", R.drawable.lojaicon, "Loja"),
+    BottomNavItem("pedidos", R.drawable.pedidosicon, "pedidos"),
     BottomNavItem("perfil", R.drawable.perfilicon, "Perfil")
 )
 

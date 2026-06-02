@@ -4,6 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.example.horta.utilities.DatabaseHelper
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class PedidoRepository(context: Context) {
     private val db: SQLiteDatabase = DatabaseHelper(context).readableDatabase
@@ -51,6 +54,67 @@ class PedidoRepository(context: Context) {
         }
         cursor.close()
         return pedidos
+    }
+
+    fun criarPedido(
+        idCliente: Long,
+        itens: List<Pair<Long, Int>>,
+        total: Double,
+        metodoPagamento: String,
+        troco: Double = 0.0
+    ): Long {
+        return try {
+            db.beginTransaction()
+
+            val idCursor = db.rawQuery("SELECT COALESCE(MAX(id_pedido), 0) + 1 FROM pedido", null)
+            idCursor.moveToFirst()
+            val idPedido = idCursor.getLong(0)
+            idCursor.close()
+
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_MONTH, 5)
+            val dataEntrega = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
+            val pedidoValues = ContentValues().apply {
+                put("id_pedido", idPedido)
+                put("dataEntrega", dataEntrega)
+                put("id_cliente", idCliente)
+            }
+            db.insert("pedido", null, pedidoValues)
+
+            // Inserir itens do pedido
+            for (item in itens) {
+                val produtoId = item.first
+                val quantidade = item.second
+
+                // Buscar preço do produto
+                val precoCursor = db.query(
+                    "produto",
+                    arrayOf("preco"),
+                    "id_produto = ?",
+                    arrayOf(produtoId.toString()),
+                    null, null, null
+                )
+                val preco = if (precoCursor.moveToFirst()) precoCursor.getDouble(0) else 0.0
+                precoCursor.close()
+
+                val itemValues = ContentValues().apply {
+                    put("quantidade", quantidade)
+                    put("id_pedido", idPedido)
+                    put("id_produto", produtoId)
+                    put("preco", preco)
+                }
+                db.insert("pedido_produto", null, itemValues)
+            }
+
+            db.setTransactionSuccessful()
+            db.endTransaction()
+            idPedido
+        } catch (e: Exception) {
+            db.endTransaction()
+            e.printStackTrace()
+            0L
+        }
     }
 
     fun getItensDoPedido(idPedido: Long): List<ItemPedido> {

@@ -26,19 +26,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("carrinho") } //Onde o aplicativo inicia
+    var telaAtual by remember { mutableStateOf("inicio") } // Tela aonde o aplicativo inicio
     val context = LocalContext.current
+    var totalCarrinho by remember { mutableStateOf(0.0) }
 
     when (telaAtual) {
         "inicio" -> InicioScreen(
             onComecarClick = { telaAtual = "login" }
         )
 
-        // Login e autenticação
         "login" -> LoginScreen(
             onLoginSuccess = {
                 Toast.makeText(context, "Login realizado!", Toast.LENGTH_LONG).show()
-                telaAtual = "horta"
+                telaAtual = "home"
             },
             onCadastroClick = { telaAtual = "cadastro" },
             onEsqueciSenhaClick = { telaAtual = "recuperarSenha" }
@@ -59,7 +59,6 @@ fun AppNavigation() {
         "home" -> HomeScreen(
             onNavigateTo = { telaAtual = it }
         )
-
 
         "horta" -> HortaScreen(
             onNavigateTo = { telaAtual = it },
@@ -89,8 +88,11 @@ fun AppNavigation() {
 
         "carrinho" -> CarrinhoScreen(
             onNavigateTo = { telaAtual = it },
-            onFinalizar = { telaAtual = "entrega" },
-            onVoltar = { telaAtual = "loja" }
+            onFinalizar = {
+                telaAtual = "entrega"
+            },
+            onVoltar = { telaAtual = "loja" },
+            onAtualizarTotal = { novoTotal -> totalCarrinho = novoTotal }
         )
 
         "entrega" -> EntregaScreen(
@@ -102,21 +104,24 @@ fun AppNavigation() {
 
         "pagamento" -> PagamentoScreen(
             onNavigateTo = { telaAtual = it },
-            onConfirmar = { telaAtual = "qrcode" },
+            onConfirmar = {
+                telaAtual = "pedidos"
+            },
             onVoltar = { telaAtual = "entrega" },
             onVerCarrinho = { telaAtual = "carrinho" },
+            onNavigateToQRCode = {
+                telaAtual = "qrcode"
+            },
+            totalCompra = totalCarrinho
         )
 
         "qrcode" -> QRcodeScreen(
             onNavigateTo = { telaAtual = it },
             onConcluir = {
-                Toast.makeText(context, "Compra finalizada!", Toast.LENGTH_LONG).show()
-                telaAtual = "loja"
-            }
+                Toast.makeText(context, "Pagamento PIX confirmado!", Toast.LENGTH_LONG).show()
+                telaAtual = "pedidos"
+            },
+            onVerCarrinho = { telaAtual = "carrinho" }
         )
     }
 }
-
-
-
-

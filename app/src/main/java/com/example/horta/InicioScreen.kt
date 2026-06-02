@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,11 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.horta.utilities.CarrosselImagens
+import com.example.horta.ui.theme.*
 
 @Composable
 fun InicioScreen(onComecarClick: () -> Unit) {
@@ -64,15 +64,13 @@ fun InicioScreen(onComecarClick: () -> Unit) {
                 Column {
                     Text(
                         text = "YBY MARA YE",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        style = DinamicTypography.displayMedium,
+                        color = Color.White
                     )
                     Text(
                         text = "TERRA SEM MAL",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
+                        style = DinamicTypography.bodyLarge,
+                        color = Color.White
                     )
                 }
             }
@@ -90,68 +88,93 @@ fun InicioScreen(onComecarClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(24.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Cultivando um futuro melhor",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                textAlign = TextAlign.Center
-            )
-
-            Card(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                shape = MaterialTheme.shapes.medium
+                    .padding(bottom = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.image1inicio),
-                    contentDescription = "Imagem 1",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                Card(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(150.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.image1inicio),
+                        contentDescription = "Imagem 1",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Cultivando um",
+                        style = DinamicTypography.headlineMedium,
+                        color = CinzaEscuro
+                    )
+                    Text(
+                        text = "futuro melhor",
+                        style = DinamicTypography.headlineMedium,
+                        color = CinzaEscuro
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Pequenas ações grandes colheitas",
-                fontSize = 16.sp,
-                color = Color.Black,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Card(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                shape = MaterialTheme.shapes.medium
+                    .padding(bottom = 32.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.image2inicio),
-                    contentDescription = "Imagem 2",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Pequenas ações",
+                        style = DinamicTypography.headlineMedium,
+                        color = CinzaEscuro
+                    )
+                    Text(
+                        text = "grandes colheitas",
+                        style = DinamicTypography.headlineMedium,
+                        color = CinzaEscuro
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Card(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(150.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.image2inicio),
+                        contentDescription = "Imagem 2",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
 
             Text(
                 text = "Cultive Mudança!",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                modifier = Modifier.padding(bottom = 8.dp)
+                style = DinamicTypography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp),
+                textAlign = TextAlign.Center
             )
 
             CarrosselImagens(
@@ -169,7 +192,7 @@ fun InicioScreen(onComecarClick: () -> Unit) {
             Button(
                 onClick = onComecarClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF4CAF50),
+                    containerColor = VerdePrincipal,
                     contentColor = Color.White
                 ),
                 modifier = Modifier
@@ -178,8 +201,7 @@ fun InicioScreen(onComecarClick: () -> Unit) {
             ) {
                 Text(
                     text = "Começar",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    style = DinamicTypography.labelLarge
                 )
             }
 
@@ -187,5 +209,3 @@ fun InicioScreen(onComecarClick: () -> Unit) {
         }
     }
 }
-
-

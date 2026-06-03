@@ -23,6 +23,7 @@ import androidx.core.view.WindowCompat
 //Cores do figma
 val VerdePrincipal = Color(0xFF12A423)      // #12A423
 val VerdeEscuro = Color(0xFF286619)         // #286619
+val VerdeClaro = Color(0xFFC4D3C1) // #C4D3C1
 val AmareloDestaque = Color(0xFFDECA45)     // #DECA45
 val CinzaClaro = Color(0xFFB7B7B7)          // #B7B7B7
 val CinzaEscuro = Color(0xFF2E2E2E)         // #2E2E2E
@@ -45,10 +46,10 @@ private val LightColorScheme = lightColorScheme(
 
 // Tipografia para fazer responsividade
 val DinamicTypography = Typography(
-    displayMedium = TextStyle(  //me parece inutil
+    displayMedium = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        color = VerdeEscuro
+        fontSize = 26.sp,
+        color = AmareloDestaque
     ),
     displaySmall = TextStyle(
         fontWeight = FontWeight.Bold,

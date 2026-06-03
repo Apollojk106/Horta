@@ -1,18 +1,15 @@
 package com.example.horta
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +20,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.horta.database.ClienteRepository
 import com.example.horta.database.TokenRecuperacaoRepository
+import com.example.horta.ui.components.HeaderLogin
+import com.example.horta.ui.theme.DinamicTypography
+import com.example.horta.ui.theme.VerdeClaro
+import com.example.horta.ui.theme.VerdePrincipal
 import kotlinx.coroutines.*
 
 @Composable
@@ -147,64 +148,7 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.bgverde),
-                    contentDescription = "Background Verde",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    contentScale = ContentScale.Crop
-                )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    // Logo
-                    Box(
-                        modifier = Modifier
-                            .size(90.dp)
-                            .background(Color.White, shape = RoundedCornerShape(45.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.logoybe),
-                            contentDescription = "Logo",
-                            modifier = Modifier.size(60.dp),
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "YBY MARA YE",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-
-                    Text(
-                        text = "TERRA SEM MAL",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.White.copy(alpha = 0.9f)
-                    )
-                }
-            }
-        }
+        HeaderLogin()
 
         Column(
             modifier = Modifier
@@ -216,21 +160,21 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Text(
                 text = "Recuperar Senha",
-                fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFF2E7D32),
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                style = DinamicTypography.displaySmall,
+                color = VerdePrincipal
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "Digite seu e-mail para receber o token",
-                fontSize = 14.sp,
-                color = Color.Gray,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                style = DinamicTypography.displayMedium,
+                color = VerdeClaro
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -251,14 +195,30 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
             Button(
                 onClick = { solicitarToken() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
+                colors = ButtonDefaults.buttonColors(containerColor = VerdePrincipal),
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isLoading && !tokenEnviado
             ) {
                 if (isLoading && !tokenEnviado) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                 } else {
-                    Text("Solicitar Token", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.folhaicon),
+                            contentDescription = "Folha",
+                            modifier = Modifier.size(30.dp),
+                            tint = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Solicitar Token",
+                            style = DinamicTypography.bodyLarge,
+                            color = Color.White
+                        )
+                    }
                 }
             }
 
@@ -295,14 +255,30 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
 
                 Button(
                     onClick = { validarToken() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                    colors = ButtonDefaults.buttonColors(containerColor = VerdePrincipal),
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isLoading
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                     } else {
-                        Text("Validar Token", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.folhaicon),
+                                contentDescription = "Folha",
+                                modifier = Modifier.size(30.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Validar Token",
+                                style = DinamicTypography.bodyLarge,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }
@@ -320,8 +296,7 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                 Text(
                     text = " ou ",
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    fontSize = 14.sp,
-                    color = Color.Gray
+                    style = DinamicTypography.bodySmall
                 )
                 Divider(
                     modifier = Modifier.weight(1f),
@@ -341,9 +316,7 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
             ) {
                 Text(
                     text = "Voltar para Login",
-                    fontSize = 16.sp,
-                    color = Color(0xFF4CAF50),
-                    fontWeight = FontWeight.Medium
+                    style = DinamicTypography.bodySmall
                 )
             }
 
@@ -371,17 +344,14 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                 ) {
                     Text(
                         text = "Redefinir Senha",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF4CAF50)
+                        style = DinamicTypography.bodyLarge
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
                         text = "Digite sua nova senha",
-                        fontSize = 14.sp,
-                        color = Color.Gray
+                        style = DinamicTypography.bodySmall
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -434,7 +404,23 @@ fun RecuperarSenhaScreen(onVoltarClick: () -> Unit) {
                             if (isLoading) {
                                 CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                             } else {
-                                Text("Confirmar")
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.folhaicon),
+                                        contentDescription = "Folha",
+                                        modifier = Modifier.size(30.dp),
+                                        tint = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Confirmar",
+                                        style = DinamicTypography.bodyLarge,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
                     }

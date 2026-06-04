@@ -6,12 +6,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.components.BottomNavBar
 import com.example.horta.ui.components.BaseScreen
+
 
 @Composable
 fun HortaScreen(
@@ -42,23 +44,24 @@ fun HortaScreen(
             ) {
 
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
-                    shape = RoundedCornerShape(16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(elevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(0.dp)
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text(
                             text = "Impacto da comunidade",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            style = DinamicTypography.displaySmall,
+                            color = CinzaEscuro
                         )
                         Text(
                             text = "Veja como sua ajuda transforma vidas e a nossa horta!",
-                            fontSize = 14.sp,
-                            color = Color.Gray
+                            style = DinamicTypography.bodyMedium,
+                            color = CinzaClaro
                         )
                     }
                 }
@@ -105,35 +108,38 @@ fun HortaScreen(
                     text = "Metas da Horta",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E7D32),
+                    color = VerdeEscuro,
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
+                // Meta 1
                 MetaCard(
                     valor = "R$ 120,00",
                     descricao = "Adubo para a horta",
                     status = "Concluída",
-                    statusColor = Color(0xFF4CAF50)
+                    statusColor = VerdePrincipal
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Meta 2
                 MetaCard(
                     valor = "R$ 80,00",
                     descricao = "Ferramentas",
                     status = "Concluída",
-                    statusColor = Color(0xFF4CAF50)
+                    statusColor = VerdePrincipal
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Meta 3
                 MetaCard(
                     valor = "R$ 60,00",
                     descricao = "Sementes",
                     status = "Em andamento",
-                    statusColor = Color(0xFFFF9800)
+                    statusColor = AmareloDestaque
                 )
             }
         }
@@ -147,8 +153,9 @@ fun StatCardHorta(
     descricao: String
 ) {
     Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+        modifier = modifier
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(12.dp), clip = true),
+        colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(
@@ -159,14 +166,14 @@ fun StatCardHorta(
         ) {
             Text(
                 text = valor,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF2E7D32)
+                color = VerdeEscuro
             )
             Text(
                 text = descricao,
                 fontSize = 11.sp,
-                color = Color.Gray,
+                color = CinzaClaro,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
         }
@@ -181,8 +188,10 @@ fun MetaCard(
     statusColor: Color
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(12.dp), clip = true),
+        colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -195,14 +204,14 @@ fun MetaCard(
             Column {
                 Text(
                     text = valor,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E7D32)
+                    color = VerdeEscuro
                 )
                 Text(
                     text = descricao,
-                    fontSize = 14.sp,
-                    color = Color.Gray
+                    fontSize = 13.sp,
+                    color = CinzaEscuro
                 )
             }
             Surface(

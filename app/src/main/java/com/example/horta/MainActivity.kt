@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppNavigation() {
-    var telaAtual by remember { mutableStateOf("recuperarSenha") } // Tela aonde o aplicativo inicio
+    var telaAtual by remember { mutableStateOf("pedidos") } // Tela aonde o aplicativo inicio
     val context = LocalContext.current
     var totalCarrinho by remember { mutableStateOf(0.0) }
 

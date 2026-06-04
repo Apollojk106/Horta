@@ -1,11 +1,13 @@
 package com.example.horta.loja
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -209,10 +211,16 @@ fun LojaScreen(
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 12.dp),
+                                    .padding(bottom = 12.dp)
+                                    .shadow(
+                                        elevation = 4.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        clip = true
+                                    ),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = Color(0xFFE8F5E9)
-                                )
+                                    containerColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(12.dp)
                             ) {
                                 Column(
                                     modifier = Modifier

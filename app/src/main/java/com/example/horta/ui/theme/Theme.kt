@@ -27,6 +27,8 @@ val VerdeClaro = Color(0xFFC4D3C1) // #C4D3C1
 val AmareloDestaque = Color(0xFFDECA45)     // #DECA45
 val CinzaClaro = Color(0xFFB7B7B7)          // #B7B7B7
 val CinzaEscuro = Color(0xFF2E2E2E)         // #2E2E2E
+val CardBackgroundColor = Color(0xFFF5F5F5)  // Cinza bem claro (quase branco)
+val CardBackgroundColor2 = Color(0xFFFAFAFA)
 
 private val DarkColorScheme = darkColorScheme(
     primary = VerdePrincipal,

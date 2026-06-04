@@ -1,10 +1,12 @@
 package com.example.horta
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -16,6 +18,14 @@ import com.example.horta.ui.components.BaseScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+// Cores (usando as mesmas do tema)
+val VerdePrincipal = Color(0xFF12A423)      // #12A423
+val VerdeEscuro = Color(0xFF286619)         // #286619
+val AmareloDestaque = Color(0xFFDECA45)     // #DECA45
+val CinzaClaro = Color(0xFFB7B7B7)          // #B7B7B7
+val CinzaEscuro = Color(0xFF2E2E2E)         // #2E2E2E
+val CardBackgroundColor = Color(0xFFF5F5F5) // Fundo dos cards
 
 @Composable
 fun PedidosScreen(
@@ -102,13 +112,13 @@ fun PedidosScreen(
                             Text(
                                 text = "Nenhum pedido encontrado",
                                 fontSize = 18.sp,
-                                color = Color.Gray
+                                color = CinzaClaro
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = "Faça sua primeira compra!",
                                 fontSize = 14.sp,
-                                color = Color.Gray
+                                color = CinzaClaro
                             )
                         }
                     }
@@ -146,11 +156,11 @@ fun PedidoCard(
     }
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = if (pedido.status == "Entregue") Color(0xFFE8F5E9) else Color(0xFFFFF3E0)
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(12.dp), clip = true),
+        colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -165,27 +175,27 @@ fun PedidoCard(
                         text = "Pedido #${pedido.id}",
                         fontSize = 16.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        color = Color(0xFF2E7D32)
+                        color = VerdeEscuro
                     )
                     Text(
                         text = pedido.dataPedido,
                         fontSize = 12.sp,
-                        color = Color.Gray
+                        color = CinzaClaro
                     )
                 }
 
                 Surface(
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(20.dp),
                     color = if (pedido.status == "Entregue")
-                        Color(0xFF4CAF50).copy(alpha = 0.2f)
+                        VerdePrincipal.copy(alpha = 0.2f)
                     else
-                        Color(0xFFFF9800).copy(alpha = 0.2f)
+                        AmareloDestaque.copy(alpha = 0.2f)
                 ) {
                     Text(
                         text = pedido.status,
                         fontSize = 12.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
-                        color = if (pedido.status == "Entregue") Color(0xFF4CAF50) else Color(0xFFFF9800),
+                        color = if (pedido.status == "Entregue") VerdePrincipal else AmareloDestaque,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                     )
                 }
@@ -200,13 +210,13 @@ fun PedidoCard(
                 Text(
                     text = "Total:",
                     fontSize = 14.sp,
-                    color = Color.Gray
+                    color = CinzaClaro
                 )
                 Text(
                     text = "R$ ${String.format("%.2f", pedido.total)}",
                     fontSize = 16.sp,
                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                    color = Color(0xFF4CAF50)
+                    color = VerdePrincipal
                 )
             }
 
@@ -219,16 +229,17 @@ fun PedidoCard(
                 Text(
                     text = "Previsão de entrega:",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = CinzaClaro
                 )
                 Text(
                     text = pedido.dataEntrega,
                     fontSize = 12.sp,
-                    color = Color(0xFF2E7D32)
+                    color = VerdeEscuro
                 )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
+
             TextButton(
                 onClick = { expanded = !expanded },
                 modifier = Modifier.fillMaxWidth()
@@ -236,13 +247,13 @@ fun PedidoCard(
                 Text(
                     text = if (expanded) "▲ Ver menos" else "▼ Ver itens",
                     fontSize = 12.sp,
-                    color = Color(0xFF4CAF50)
+                    color = VerdePrincipal
                 )
             }
 
             if (expanded) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Divider(color = Color.LightGray)
+                Divider(color = CinzaClaro)
                 Spacer(modifier = Modifier.height(8.dp))
 
                 if (isLoadingItens) {
@@ -256,7 +267,7 @@ fun PedidoCard(
                     Text(
                         text = "Nenhum item encontrado",
                         fontSize = 12.sp,
-                        color = Color.Gray
+                        color = CinzaClaro
                     )
                 } else {
                     itensPedido.forEach { item ->
@@ -269,12 +280,12 @@ fun PedidoCard(
                             Text(
                                 text = "${item.nomeProduto} x${item.quantidade}",
                                 fontSize = 13.sp,
-                                color = Color(0xFF2E7D32)
+                                color = VerdeEscuro
                             )
                             Text(
                                 text = "R$ ${String.format("%.2f", item.subtotal)}",
                                 fontSize = 13.sp,
-                                color = Color(0xFF4CAF50)
+                                color = VerdePrincipal
                             )
                         }
                     }

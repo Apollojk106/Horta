@@ -2,7 +2,7 @@ package com.example.horta.utilities
 
 object EmailConfig {
     val FROM_EMAIL = "hortaybe@gmail.com"
-    val APP_PASSWORD = "sua_senha_de_app_aqui" //sera que foi
+    val APP_PASSWORD = "sua_senha_de_app_aqui" //vish mano
 
     val SMTP_HOST = "smtp.gmail.com"
     val SMTP_PORT = "587"

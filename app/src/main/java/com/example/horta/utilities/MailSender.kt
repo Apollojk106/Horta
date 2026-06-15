@@ -1,5 +1,3 @@
-/* tentativa frustada de mandar email depois retomo
-
 package com.example.horta.utilities
 
 import android.os.AsyncTask
@@ -14,9 +12,6 @@ class MailSender : AsyncTask<Void, Void, Boolean>() {
     private lateinit var subject: String
     private lateinit var messageBody: String
 
-    private val fromEmail = "hortaybe@gmail.com"
-    private val appPassword = ""
-
     fun setData(recipient: String, subject: String, messageBody: String) {
         this.recipient = recipient
         this.subject = subject
@@ -27,19 +22,19 @@ class MailSender : AsyncTask<Void, Void, Boolean>() {
         val props = Properties().apply {
             put("mail.smtp.auth", "true")
             put("mail.smtp.starttls.enable", "true")
-            put("mail.smtp.host", "smtp.gmail.com")
-            put("mail.smtp.port", "587")
+            put("mail.smtp.host", EmailConfig.SMTP_HOST)
+            put("mail.smtp.port", EmailConfig.SMTP_PORT)
         }
 
         val session = Session.getInstance(props, object : Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication {
-                return PasswordAuthentication(fromEmail, appPassword)
+                return PasswordAuthentication(EmailConfig.FROM_EMAIL, EmailConfig.APP_PASSWORD)
             }
         })
 
         return try {
             val message = MimeMessage(session).apply {
-                setFrom(InternetAddress(fromEmail))
+                setFrom(InternetAddress(EmailConfig.FROM_EMAIL))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient))
                 setSubject(subject)
                 setText(messageBody)
@@ -52,5 +47,3 @@ class MailSender : AsyncTask<Void, Void, Boolean>() {
         }
     }
 }
-
-*/

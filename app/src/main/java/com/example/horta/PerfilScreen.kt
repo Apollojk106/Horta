@@ -244,7 +244,7 @@ fun PerfilScreen(
                             iconRes = R.drawable.mapsicon,
                             title = "Dados pessoais",
                             subtitle = "Atualize suas informações",
-                            onClick = { mostrarDialogDados = true },
+                            onClick = { mostrarDialogDados = true }
                         )
 
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -407,7 +407,10 @@ fun PerfilScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Row(
+                    // Botões empilhados: Salvar em cima, Cancelar embaixo
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(
                             onClick = {
@@ -446,7 +449,9 @@ fun PerfilScreen(
                                     }
                                 }
                             },
-                            Modifier.fillMaxHeight(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                             enabled = !isSaving
                         ) {
@@ -475,10 +480,17 @@ fun PerfilScreen(
 
                         Button(
                             onClick = { mostrarDialogDados = false },
-                            Modifier.fillMaxHeight(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
-                        ) { Text("Cancelar", style = DinamicTypography.bodySmall,
-                            color = Color.White) }
+                        ) {
+                            Text(
+                                text = "Cancelar",
+                                style = DinamicTypography.bodySmall,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }
@@ -537,16 +549,11 @@ fun PerfilScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Row(
+                    // Botões empilhados: Alterar em cima, Cancelar embaixo
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Button(
-                            onClick = { mostrarDialogSeguranca = false },
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
-                        ) { Text("Cancelar") }
-
                         Button(
                             onClick = {
                                 when {
@@ -577,7 +584,9 @@ fun PerfilScreen(
                                     }
                                 }
                             },
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                             enabled = !isSaving
                         ) {
@@ -602,6 +611,20 @@ fun PerfilScreen(
                                     )
                                 }
                             }
+                        }
+
+                        Button(
+                            onClick = { mostrarDialogSeguranca = false },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        ) {
+                            Text(
+                                text = "Cancelar",
+                                style = DinamicTypography.bodySmall,
+                                color = Color.White
+                            )
                         }
                     }
                 }

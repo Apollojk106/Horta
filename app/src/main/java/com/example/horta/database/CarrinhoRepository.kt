@@ -16,16 +16,13 @@ class CarrinhoRepository(context: Context) {
         val quantidade: Int
     )
 
-    // Adicionar item ao carrinho (ou aumentar quantidade se já existir)
     fun adicionarItem(idProduto: Long, nomeProduto: String, preco: Double): Boolean {
         val itemExistente = buscarItemPorProduto(idProduto)
 
         return if (itemExistente != null) {
-            // Atualizar quantidade
             val novaQuantidade = itemExistente.quantidade + 1
             atualizarQuantidade(itemExistente.idCarrinho, novaQuantidade)
         } else {
-            // Inserir novo item
             val values = ContentValues().apply {
                 put("id_produto", idProduto)
                 put("nome_produto", nomeProduto)
@@ -36,13 +33,11 @@ class CarrinhoRepository(context: Context) {
         }
     }
 
-    // Remover item do carrinho
     fun removerItem(idCarrinho: Long): Boolean {
         val rows = db.delete("carrinho", "id_carrinho = ?", arrayOf(idCarrinho.toString()))
         return rows > 0
     }
 
-    // Diminuir quantidade de um item
     fun diminuirQuantidade(idCarrinho: Long): Boolean {
         val item = buscarItemPorId(idCarrinho)
         return if (item != null) {
@@ -56,7 +51,6 @@ class CarrinhoRepository(context: Context) {
         }
     }
 
-    // Atualizar quantidade
     fun atualizarQuantidade(idCarrinho: Long, novaQuantidade: Int): Boolean {
         val values = ContentValues().apply {
             put("quantidade", novaQuantidade)
@@ -65,7 +59,6 @@ class CarrinhoRepository(context: Context) {
         return rows > 0
     }
 
-    // Buscar item por ID do produto
     fun buscarItemPorProduto(idProduto: Long): ItemCarrinho? {
         val cursor = db.query(
             "carrinho",
@@ -80,7 +73,7 @@ class CarrinhoRepository(context: Context) {
                 idCarrinho = cursor.getLong(0),
                 idProduto = cursor.getLong(1),
                 nomeProduto = cursor.getString(2),
-                preco = 0.0, // Será preenchido depois com o preço do produto
+                preco = 0.0,
                 quantidade = cursor.getInt(3)
             )
         } else {
@@ -88,7 +81,6 @@ class CarrinhoRepository(context: Context) {
         }.also { cursor.close() }
     }
 
-    // Buscar item por ID do carrinho
     fun buscarItemPorId(idCarrinho: Long): ItemCarrinho? {
         val cursor = db.query(
             "carrinho",
@@ -111,7 +103,6 @@ class CarrinhoRepository(context: Context) {
         }.also { cursor.close() }
     }
 
-    // Buscar todos os itens do carrinho com preço
     fun buscarTodosItens(): List<ItemCarrinho> {
         val itens = mutableListOf<ItemCarrinho>()
         val query = """
@@ -136,7 +127,6 @@ class CarrinhoRepository(context: Context) {
         return itens
     }
 
-    // Calcular total do carrinho
     fun calcularTotal(): Double {
         var total = 0.0
         val query = """
@@ -153,7 +143,6 @@ class CarrinhoRepository(context: Context) {
         return total
     }
 
-    // Limpar carrinho
     fun limparCarrinho(): Boolean {
         val rows = db.delete("carrinho", null, null)
         return rows > 0

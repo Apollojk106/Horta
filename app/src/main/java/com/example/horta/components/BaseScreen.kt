@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.R
+import com.example.horta.ui.theme.DinamicTypography
 
 @Composable
 fun BaseScreen(
@@ -60,8 +61,7 @@ fun BaseScreen(
                     Text(
                         text = titulo,
                         color = Color.White,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
+                        style = DinamicTypography.displayLarge
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -69,7 +69,7 @@ fun BaseScreen(
                     Text(
                         text = subtitulo,
                         color = Color.White,
-                        fontSize = 16.sp
+                        style = DinamicTypography.bodySmall
                     )
                 }
             }

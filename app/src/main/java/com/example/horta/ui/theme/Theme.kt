@@ -48,6 +48,11 @@ private val LightColorScheme = lightColorScheme(
 
 // Tipografia para fazer responsividade
 val DinamicTypography = Typography(
+    displayLarge = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp,
+        color = AmareloDestaque
+    ),
     displayMedium = TextStyle(
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
@@ -68,7 +73,7 @@ val DinamicTypography = Typography(
     ),
     bodySmall = TextStyle( //me parece inutil
         fontSize = 17.sp,
-        color = Color.Black
+        color = Color(0xFFB7B7B7)
     )
 )
 

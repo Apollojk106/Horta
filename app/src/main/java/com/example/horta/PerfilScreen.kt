@@ -30,6 +30,7 @@ import com.example.horta.database.ClienteRepository
 import com.example.horta.database.EnderecoRepository
 import com.example.horta.database.PedidoRepository
 import com.example.horta.database.SessaoRepository
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.*
 
 @Composable
@@ -188,13 +189,12 @@ fun PerfilScreen(
                         } else {
                             Text(
                                 text = nomeUsuario,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
+                                style = DinamicTypography.bodySmall,
                                 color = Color.White
                             )
                             Text(
                                 text = emailUsuario,
-                                fontSize = 13.sp,
+                                style = DinamicTypography.bodySmall,
                                 color = Color.White.copy(alpha = 0.9f)
                             )
                         }
@@ -283,7 +283,7 @@ fun PerfilScreen(
                         Spacer(modifier = Modifier.width(20.dp))
                         Text(
                             text = "Sair",
-                            fontSize = 20.sp,
+                            style = DinamicTypography.displaySmall,
                             color = Color(0xFFFF0000)
                         )
                     }
@@ -318,8 +318,7 @@ fun PerfilScreen(
                 ) {
                     Text(
                         text = "Dados pessoais",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = DinamicTypography.displayMedium,
                         color = Color(0xFF2E7D32)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -335,8 +334,7 @@ fun PerfilScreen(
 
                     Text(
                         text = "Endereço",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
+                        style = DinamicTypography.bodyMedium,
                         color = Color(0xFF2E7D32)
                     )
 
@@ -410,15 +408,7 @@ fun PerfilScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Button(
-                            onClick = { mostrarDialogDados = false },
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
-                        ) { Text("Cancelar") }
-
                         Button(
                             onClick = {
                                 isSaving = true
@@ -456,16 +446,39 @@ fun PerfilScreen(
                                     }
                                 }
                             },
-                            modifier = Modifier.weight(1f),
+                            Modifier.fillMaxHeight(),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                             enabled = !isSaving
                         ) {
                             if (isSaving) {
                                 CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                             } else {
-                                Text("Salvar")
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.folhaicon),
+                                        contentDescription = "Folha",
+                                        modifier = Modifier.size(30.dp),
+                                        tint = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Salvar",
+                                        style = DinamicTypography.bodySmall,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
+
+                        Button(
+                            onClick = { mostrarDialogDados = false },
+                            Modifier.fillMaxHeight(),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        ) { Text("Cancelar", style = DinamicTypography.bodySmall,
+                            color = Color.White) }
                     }
                 }
             }
@@ -491,8 +504,7 @@ fun PerfilScreen(
                 ) {
                     Text(
                         text = "Segurança",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = DinamicTypography.displayMedium,
                         color = Color(0xFF2E7D32)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -572,7 +584,23 @@ fun PerfilScreen(
                             if (isSaving) {
                                 CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                             } else {
-                                Text("Alterar")
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.folhaicon),
+                                        contentDescription = "Folha",
+                                        modifier = Modifier.size(30.dp),
+                                        tint = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Alterar",
+                                        style = DinamicTypography.bodyLarge,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
                     }

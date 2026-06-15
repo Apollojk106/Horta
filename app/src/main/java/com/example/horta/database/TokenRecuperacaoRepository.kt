@@ -19,14 +19,12 @@ class TokenRecuperacaoRepository(context: Context) {
         val usado: Boolean
     )
 
-    // Criar token para recuperação de senha (válido apenas hoje)
     fun criarToken(idCliente: Long): String {
         val token = UUID.randomUUID().toString().substring(0, 8).uppercase()
 
         val calendar = Calendar.getInstance()
         val dataCriacao = formatDateTime(calendar)
 
-        // Token expira HOJE às 23:59:59
         calendar.set(Calendar.HOUR_OF_DAY, 23)
         calendar.set(Calendar.MINUTE, 59)
         calendar.set(Calendar.SECOND, 59)
@@ -44,7 +42,6 @@ class TokenRecuperacaoRepository(context: Context) {
         return token
     }
 
-    // Verificar se o token é válido (não expirado e não usado)
     fun isTokenValido(token: String, idCliente: Long): Boolean {
         val cursor = db.query(
             "token_recuperacao",
@@ -66,7 +63,6 @@ class TokenRecuperacaoRepository(context: Context) {
         }
     }
 
-    // Buscar token válido
     fun getTokenRecuperacao(token: String, idCliente: Long): TokenRecuperacao? {
         val cursor = db.query(
             "token_recuperacao",
@@ -90,18 +86,12 @@ class TokenRecuperacaoRepository(context: Context) {
         }.also { cursor.close() }
     }
 
-    // Marcar token como usado (após trocar a senha)
     fun marcarTokenComoUsado(idToken: Long): Boolean {
         val values = ContentValues().apply {
             put("usado", 1)
         }
         val rows = db.update("token_recuperacao", values, "id_token = ?", arrayOf(idToken.toString()))
         return rows > 0
-    }
-
-    // Limpar tokens expirados (manutenção)
-    fun limparTokensExpirados(): Int {
-        return db.delete("token_recuperacao", "data_expiracao < ?", arrayOf(getCurrentDateTime()))
     }
 
     private fun getCurrentDateTime(): String {

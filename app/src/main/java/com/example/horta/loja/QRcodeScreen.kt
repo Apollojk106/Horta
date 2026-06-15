@@ -14,6 +14,7 @@ import com.example.horta.components.BottomNavBar
 import com.example.horta.R
 import com.example.horta.ui.components.LojaBaseScreen
 import com.example.horta.ui.components.TopBarCompleta
+import com.example.horta.ui.theme.DinamicTypography
 
 @Composable
 fun QRcodeScreen(
@@ -70,7 +71,7 @@ fun QRcodeScreen(
 
                 Text(
                     text = "Escaneie o QR Code com seu banco",
-                    fontSize = 12.sp,
+                    style = DinamicTypography.bodySmall,
                     color = Color.Gray
                 )
 
@@ -81,7 +82,23 @@ fun QRcodeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
-                    Text("Continuar", fontSize = 18.sp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.folhaicon),
+                            contentDescription = "Folha",
+                            modifier = Modifier.size(30.dp),
+                            tint = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Continuar",
+                            style = DinamicTypography.bodyLarge,
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }

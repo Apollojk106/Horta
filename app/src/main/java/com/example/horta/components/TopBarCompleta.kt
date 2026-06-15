@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.R
+import com.example.horta.ui.theme.DinamicTypography
 
 @Composable
 fun TopBarCompleta(
@@ -40,8 +41,7 @@ fun TopBarCompleta(
 
         Text(
             text = titulo,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            style = DinamicTypography.displaySmall,
             color = Color(0xFF2E7D32)
         )
 
@@ -52,7 +52,7 @@ fun TopBarCompleta(
                 painter = painterResource(id = R.drawable.lixoicon),
                 contentDescription = "Limpar carrinho",
                 tint = Color(0xFFF44336),
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(34.dp)
             )
         }
     }

@@ -42,7 +42,6 @@ fun HeaderLogin() {
         ) {
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Logo
             Box(
                 modifier = Modifier
                     .size(90.dp)
@@ -60,7 +59,6 @@ fun HeaderLogin() {
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Título principal
             Text(
                 text = "YBY MARA YE",
                 style = DinamicTypography.displaySmall,

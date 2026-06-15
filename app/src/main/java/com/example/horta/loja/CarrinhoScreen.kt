@@ -18,6 +18,7 @@ import com.example.horta.components.BottomNavBar
 import com.example.horta.database.CarrinhoRepository
 import com.example.horta.ui.components.LojaBaseScreen
 import com.example.horta.ui.components.TopBarCompleta
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -132,7 +133,7 @@ fun CarrinhoScreen(
                         )
                         Text(
                             text = "Seu carrinho está vazio",
-                            fontSize = 18.sp,
+                            style = DinamicTypography.bodyMedium,
                             color = Color.Gray
                         )
                         Spacer(modifier = Modifier.height(16.dp))
@@ -181,20 +182,19 @@ fun CarrinhoScreen(
                                         Column(modifier = Modifier.weight(1f)) {
                                             Text(
                                                 text = item.nomeProduto,
-                                                fontSize = 16.sp,
                                                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                                color = Color(0xFF2E7D32)
+                                                style = DinamicTypography.bodyMedium,
+                                                color = Color(0xFF4CAF50)
                                             )
                                             Text(
                                                 text = "Unitário: R$ ${String.format("%.2f", item.preco)}",
-                                                fontSize = 11.sp,
+                                                style = DinamicTypography.bodyMedium,
                                                 color = Color.Gray
                                             )
                                         }
                                         Text(
                                             text = "R$ ${String.format("%.2f", item.preco * item.quantidade)}",
-                                            fontSize = 16.sp,
-                                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                            style = DinamicTypography.bodyMedium,
                                             color = Color(0xFF4CAF50)
                                         )
                                     }
@@ -248,14 +248,12 @@ fun CarrinhoScreen(
                         ) {
                             Text(
                                 text = "Total:",
-                                fontSize = 18.sp,
-                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                style = DinamicTypography.bodyLarge,
                                 color = Color(0xFF2E7D32)
                             )
                             Text(
                                 text = "R$ ${String.format("%.2f", totalCarrinho)}",
-                                fontSize = 18.sp,
-                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                style = DinamicTypography.bodyLarge,
                                 color = Color(0xFF4CAF50)
                             )
                         }
@@ -268,7 +266,23 @@ fun CarrinhoScreen(
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                     ) {
-                        Text("Finalizar Compra", fontSize = 16.sp)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.folhaicon),
+                                contentDescription = "Folha",
+                                modifier = Modifier.size(30.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Finalizar a compra",
+                                style = DinamicTypography.bodyLarge,
+                                color = Color.White
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -278,7 +292,7 @@ fun CarrinhoScreen(
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
                     ) {
-                        Text("Voltar à Loja", fontSize = 16.sp)
+                        Text("Voltar à Loja", style = DinamicTypography.bodyLarge, color = Color.White)
                     }
                 }
             }

@@ -10,15 +10,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.horta.R
 import com.example.horta.components.BottomNavBar
 import com.example.horta.database.CarrinhoRepository
 import com.example.horta.database.PedidoRepository
 import com.example.horta.database.SessaoRepository
 import com.example.horta.ui.components.LojaBaseScreen
 import com.example.horta.ui.components.TopBarCompleta
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +35,7 @@ fun PagamentoScreen(
     onConfirmar: () -> Unit,
     onVoltar: () -> Unit,
     onVerCarrinho: () -> Unit,
-    onNavigateToQRCode: () -> Unit,  // Nova função para navegar ao QR Code
+    onNavigateToQRCode: () -> Unit,
     totalCompra: Double = 45.00
 ) {
     val context = LocalContext.current
@@ -50,9 +53,7 @@ fun PagamentoScreen(
     val carrinhoRepo = CarrinhoRepository(context)
     val pedidoRepo = PedidoRepository(context)
 
-    // Função para criar pedido
     fun criarPedido() {
-        // Validar se selecionou um método de pagamento
         val metodoPagamento = when {
             selectedPayment == "pix" -> "PIX"
             selectedPayment == "cartao" && selectedCartaoTipo.isNotEmpty() -> {
@@ -93,7 +94,6 @@ fun PagamentoScreen(
 
                     val calendar = Calendar.getInstance()
                     calendar.add(Calendar.DAY_OF_MONTH, 5)
-                    val dataEntrega = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
 
                     val idPedido = pedidoRepo.criarPedido(
                         idCliente = sessao.idCliente,
@@ -172,7 +172,7 @@ fun PagamentoScreen(
                     ) {
                         Text(
                             text = "Total a pagar:",
-                            fontSize = 16.sp,
+                            style = DinamicTypography.bodySmall,
                             color = Color(0xFF2E7D32)
                         )
                         Text(
@@ -188,8 +188,7 @@ fun PagamentoScreen(
 
                 Text(
                     text = "Selecione a forma de pagamento:",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                    style = DinamicTypography.bodySmall,
                     color = Color(0xFF2E7D32)
                 )
 
@@ -225,8 +224,7 @@ fun PagamentoScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "PIX",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium
+                            style = DinamicTypography.bodySmall
                         )
                     }
                 }
@@ -263,8 +261,7 @@ fun PagamentoScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = "Cartão",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium
+                                style = DinamicTypography.bodySmall
                             )
                         }
 
@@ -283,7 +280,7 @@ fun PagamentoScreen(
                                         onClick = { selectedCartaoTipo = "credito" },
                                         colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF4CAF50))
                                     )
-                                    Text("Crédito", fontSize = 14.sp)
+                                    Text("Crédito", style = DinamicTypography.bodySmall)
                                 }
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -294,7 +291,7 @@ fun PagamentoScreen(
                                         onClick = { selectedCartaoTipo = "debito" },
                                         colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF4CAF50))
                                     )
-                                    Text("Débito", fontSize = 14.sp)
+                                    Text("Débito", style = DinamicTypography.bodySmall)
                                 }
                             }
                         }
@@ -333,8 +330,7 @@ fun PagamentoScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = "Dinheiro",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium
+                                style = DinamicTypography.bodySmall
                             )
                         }
 
@@ -347,7 +343,7 @@ fun PagamentoScreen(
                             ) {
                                 Text(
                                     text = "Troco para:",
-                                    fontSize = 14.sp,
+                                    style = DinamicTypography.bodySmall,
                                     modifier = Modifier.width(80.dp)
                                 )
                                 OutlinedTextField(
@@ -376,7 +372,23 @@ fun PagamentoScreen(
                     if (isProcessing) {
                         CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
                     } else {
-                        Text("Confirmar Pedido", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.folhaicon),
+                                contentDescription = "Folha",
+                                modifier = Modifier.size(30.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Confirmar Pedido",
+                                style = DinamicTypography.bodyLarge,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }

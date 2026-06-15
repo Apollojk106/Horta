@@ -8,13 +8,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.horta.R
 import com.example.horta.components.BottomNavBar
 import com.example.horta.database.EnderecoRepository
 import com.example.horta.database.SessaoRepository
 import com.example.horta.ui.components.LojaBaseScreen
 import com.example.horta.ui.components.TopBarCompleta
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -259,7 +262,23 @@ fun EntregaScreen(
                             if (isSaving) {
                                 CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White)
                             } else {
-                                Text("Salvar e Continuar", fontSize = 18.sp)
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.folhaicon),
+                                        contentDescription = "Folha",
+                                        modifier = Modifier.size(30.dp),
+                                        tint = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Salvar e Continuar",
+                                        style = DinamicTypography.bodyLarge,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
 
@@ -267,9 +286,10 @@ fun EntregaScreen(
 
                         Button(
                             onClick = onVoltar,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
                         ) {
-                            Text("Voltar", fontSize = 16.sp)
+                            Text("Voltar", style = DinamicTypography.bodyLarge, color = Color.White)
                         }
                     }
                 }

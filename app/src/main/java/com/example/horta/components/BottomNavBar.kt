@@ -8,6 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.horta.R
+import com.example.horta.ui.theme.DinamicTypography
 
 data class BottomNavItem(
     val route: String,
@@ -42,14 +43,14 @@ fun BottomNavBar(
                     Icon(
                         painter = painterResource(id = item.icon),
                         contentDescription = item.label,
-                        modifier = androidx.compose.ui.Modifier.size(24.dp),
+                        modifier = androidx.compose.ui.Modifier.size(28.dp),
                         tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.5f)
                     )
                 },
                 label = {
                     Text(
                         text = item.label,
-                        fontSize = 12.sp,
+                        style = DinamicTypography.bodySmall,
                         color = if (isSelected) Color.White else Color.White.copy(alpha = 0.5f)
                     )
                 },

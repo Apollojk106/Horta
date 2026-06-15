@@ -24,7 +24,6 @@ fun CarrosselImagens(
 ) {
     var indiceAtual by remember { mutableStateOf(0) }
 
-    // Animação automática
     LaunchedEffect(Unit) {
         while (true) {
             delay(intervalo)
@@ -43,7 +42,6 @@ fun CarrosselImagens(
                 .fillMaxSize()
                 .background(Color(0xFFE8F5E9))
         ) {
-            // Imagem atual
             Image(
                 painter = painterResource(id = imagens[indiceAtual]),
                 contentDescription = "Imagem do carrossel",
@@ -51,7 +49,6 @@ fun CarrosselImagens(
                 contentScale = ContentScale.Crop
             )
 
-            // Indicadores de página (pontinhos)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

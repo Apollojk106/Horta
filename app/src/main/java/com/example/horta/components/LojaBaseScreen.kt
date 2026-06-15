@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.horta.R
 import com.example.horta.database.CarrinhoRepository
 import com.example.horta.database.SessaoRepository
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -93,8 +94,7 @@ fun LojaBaseScreen(
                         Text(
                             text = "Loja da horta",
                             color = Color.White,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            style = DinamicTypography.displaySmall
                         )
 
                         IconButton(
@@ -105,7 +105,7 @@ fun LojaBaseScreen(
                                 painter = painterResource(id = R.drawable.lojaicon),
                                 contentDescription = "Carrinho",
                                 tint = Color.White,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(30.dp)
                             )
                         }
                     }
@@ -125,15 +125,13 @@ fun LojaBaseScreen(
                             Text(
                                 text = "$quantidadeProdutos",
                                 color = Color(0xFF4CAF50),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold
+                                style = DinamicTypography.bodySmall
                             )
                         }
                     }
                 }
             }
 
-            // Conteúdo principal
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

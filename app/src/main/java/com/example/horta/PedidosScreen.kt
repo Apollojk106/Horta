@@ -15,11 +15,11 @@ import com.example.horta.components.BottomNavBar
 import com.example.horta.database.PedidoRepository
 import com.example.horta.database.SessaoRepository
 import com.example.horta.ui.components.BaseScreen
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// Cores (usando as mesmas do tema)
 val VerdePrincipal = Color(0xFF12A423)      // #12A423
 val VerdeEscuro = Color(0xFF286619)         // #286619
 val AmareloDestaque = Color(0xFFDECA45)     // #DECA45
@@ -107,17 +107,17 @@ fun PedidosScreen(
                         ) {
                             Text(
                                 text = "📋",
-                                fontSize = 64.sp
+                                fontSize = 68.sp
                             )
                             Text(
                                 text = "Nenhum pedido encontrado",
-                                fontSize = 18.sp,
+                                style = DinamicTypography.bodyLarge,
                                 color = CinzaClaro
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = "Faça sua primeira compra!",
-                                fontSize = 14.sp,
+                                style = DinamicTypography.bodySmall,
                                 color = CinzaClaro
                             )
                         }
@@ -173,13 +173,12 @@ fun PedidoCard(
                 Column {
                     Text(
                         text = "Pedido #${pedido.id}",
-                        fontSize = 16.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        style = DinamicTypography.bodySmall,
                         color = VerdeEscuro
                     )
                     Text(
                         text = pedido.dataPedido,
-                        fontSize = 12.sp,
+                        style = DinamicTypography.bodySmall,
                         color = CinzaClaro
                     )
                 }
@@ -193,8 +192,7 @@ fun PedidoCard(
                 ) {
                     Text(
                         text = pedido.status,
-                        fontSize = 12.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+                        style = DinamicTypography.bodySmall,
                         color = if (pedido.status == "Entregue") VerdePrincipal else AmareloDestaque,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                     )
@@ -209,13 +207,12 @@ fun PedidoCard(
             ) {
                 Text(
                     text = "Total:",
-                    fontSize = 14.sp,
+                    style = DinamicTypography.bodySmall,
                     color = CinzaClaro
                 )
                 Text(
                     text = "R$ ${String.format("%.2f", pedido.total)}",
-                    fontSize = 16.sp,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    style = DinamicTypography.bodySmall,
                     color = VerdePrincipal
                 )
             }
@@ -228,12 +225,12 @@ fun PedidoCard(
             ) {
                 Text(
                     text = "Previsão de entrega:",
-                    fontSize = 12.sp,
+                    style = DinamicTypography.bodySmall,
                     color = CinzaClaro
                 )
                 Text(
                     text = pedido.dataEntrega,
-                    fontSize = 12.sp,
+                    style = DinamicTypography.bodySmall,
                     color = VerdeEscuro
                 )
             }
@@ -246,7 +243,7 @@ fun PedidoCard(
             ) {
                 Text(
                     text = if (expanded) "▲ Ver menos" else "▼ Ver itens",
-                    fontSize = 12.sp,
+                    style = DinamicTypography.bodySmall,
                     color = VerdePrincipal
                 )
             }
@@ -266,7 +263,7 @@ fun PedidoCard(
                 } else if (itensPedido.isEmpty()) {
                     Text(
                         text = "Nenhum item encontrado",
-                        fontSize = 12.sp,
+                        style = DinamicTypography.bodyMedium,
                         color = CinzaClaro
                     )
                 } else {
@@ -279,12 +276,12 @@ fun PedidoCard(
                         ) {
                             Text(
                                 text = "${item.nomeProduto} x${item.quantidade}",
-                                fontSize = 13.sp,
+                                style = DinamicTypography.bodySmall,
                                 color = VerdeEscuro
                             )
                             Text(
                                 text = "R$ ${String.format("%.2f", item.subtotal)}",
-                                fontSize = 13.sp,
+                                style = DinamicTypography.bodySmall,
                                 color = VerdePrincipal
                             )
                         }

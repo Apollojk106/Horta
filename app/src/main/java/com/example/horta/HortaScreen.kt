@@ -106,7 +106,7 @@ fun HortaScreen(
 
                 Text(
                     text = "Metas da Horta",
-                    fontSize = 22.sp,
+                    style = DinamicTypography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                     color = VerdeEscuro,
                     modifier = Modifier.fillMaxWidth()
@@ -114,7 +114,6 @@ fun HortaScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Meta 1
                 MetaCard(
                     valor = "R$ 120,00",
                     descricao = "Adubo para a horta",
@@ -124,7 +123,6 @@ fun HortaScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Meta 2
                 MetaCard(
                     valor = "R$ 80,00",
                     descricao = "Ferramentas",
@@ -134,7 +132,6 @@ fun HortaScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Meta 3
                 MetaCard(
                     valor = "R$ 60,00",
                     descricao = "Sementes",
@@ -166,13 +163,12 @@ fun StatCardHorta(
         ) {
             Text(
                 text = valor,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+                style = DinamicTypography.bodySmall,
                 color = VerdeEscuro
             )
             Text(
                 text = descricao,
-                fontSize = 11.sp,
+                style = DinamicTypography.bodySmall,
                 color = CinzaClaro,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
@@ -204,13 +200,12 @@ fun MetaCard(
             Column {
                 Text(
                     text = valor,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = DinamicTypography.bodySmall,
                     color = VerdeEscuro
                 )
                 Text(
                     text = descricao,
-                    fontSize = 13.sp,
+                    style = DinamicTypography.bodySmall,
                     color = CinzaEscuro
                 )
             }
@@ -220,7 +215,7 @@ fun MetaCard(
             ) {
                 Text(
                     text = status,
-                    fontSize = 12.sp,
+                    style = DinamicTypography.bodySmall,
                     fontWeight = FontWeight.Medium,
                     color = statusColor,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)

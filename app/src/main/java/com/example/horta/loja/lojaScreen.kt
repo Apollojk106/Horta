@@ -17,6 +17,7 @@ import com.example.horta.components.BottomNavBar
 import com.example.horta.database.CarrinhoRepository
 import com.example.horta.database.ProdutoRepository
 import com.example.horta.ui.components.LojaBaseScreen
+import com.example.horta.ui.theme.DinamicTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -193,7 +194,7 @@ fun LojaScreen(
                     // Mostrar resultado da busca
                     Text(
                         text = "Produtos encontrados: ${produtosFiltrados.size}",
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         color = Color.Gray,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -202,7 +203,7 @@ fun LojaScreen(
                     if (produtosFiltrados.isEmpty()) {
                         Text(
                             text = "Nenhum produto encontrado",
-                            fontSize = 16.sp,
+                            fontSize = 18.sp,
                             color = Color.Gray,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -235,25 +236,23 @@ fun LojaScreen(
                                         Column(modifier = Modifier.weight(1f)) {
                                             Text(
                                                 text = produto.nome,
-                                                fontSize = 18.sp,
-                                                fontWeight = FontWeight.Bold,
+                                                style = DinamicTypography.bodyMedium,
                                                 color = Color(0xFF2E7D32)
                                             )
                                             Text(
                                                 text = "Estoque: ${produto.quantidade}",
-                                                fontSize = 12.sp,
+                                                style = DinamicTypography.bodySmall,
                                                 color = Color.Gray
                                             )
                                             Text(
                                                 text = "Colheita: ${produto.dataColheita}",
-                                                fontSize = 12.sp,
+                                                style = DinamicTypography.bodySmall,
                                                 color = Color.Gray
                                             )
                                         }
                                         Text(
                                             text = "R$ ${String.format("%.2f", produto.preco)}",
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.Bold,
+                                            style = DinamicTypography.bodyMedium,
                                             color = Color(0xFF4CAF50)
                                         )
                                     }
@@ -307,14 +306,13 @@ fun LojaScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Novos itens: R$ ${String.format("%.2f", calcularTotalSelecionado())}",
-                        fontSize = 14.sp,
+                        style = DinamicTypography.bodySmall,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Novo total: R$ ${String.format("%.2f", totalCarrinhoTemp)}",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = DinamicTypography.displayMedium,
                         color = Color(0xFF4CAF50)
                     )
                 }

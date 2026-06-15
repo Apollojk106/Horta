@@ -57,7 +57,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Card 1 - com sombra e fundo mais escuro
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -102,7 +101,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Card 2 - com sombra e fundo mais escuro
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -194,7 +192,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Card Telefone
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -237,7 +234,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Card Endereço
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -280,7 +276,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Card Horário - mantido da forma que estava (sem sombra extra)
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -321,7 +316,6 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Card Rodapé
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()

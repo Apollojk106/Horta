@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Ignorar arquivo de configuração de email com credenciais
+**/EmailConfig.kt
+com/example/horta/utilities/EmailConfig.kt
+EmailConfig.kt
